@@ -6,10 +6,15 @@ import { CTABlock } from "@/components/CTABlock";
 import { AnimatedSection } from "@/components/AnimatedSection";
 import { PageHero } from "@/components/PageHero";
 import { ImageDivider } from "@/components/ImageDivider";
+import { ImageTextSection } from "@/components/ImageTextSection";
+import { VisualBreak } from "@/components/VisualBreak";
 import { services } from "@/data/services";
 import { brokerageFaqs } from "@/data/faqs";
 import heroBrokerage from "@/assets/hero-brokerage.jpg";
 import coffeeSorting from "@/assets/coffee-sorting.jpg";
+import coffeeCupping from "@/assets/coffee-cupping.jpg";
+import dryingBeds from "@/assets/drying-beds.jpg";
+import coffeeBagsWarehouse from "@/assets/coffee-bags-warehouse.jpg";
 
 const BrokerageSourcingPage = () => {
   const process = [
@@ -61,42 +66,42 @@ const BrokerageSourcingPage = () => {
         description="A step-by-step look at how we connect international buyers with quality coffees from East Africa."
       />
 
-      {/* What is Brokerage */}
+      {/* What is Brokerage - Image/Text Split */}
       <section className="section-lg">
-        <div className="container-narrow">
-          <AnimatedSection>
-            <SectionHeader title="What is Green Coffee Brokerage?" />
-          </AnimatedSection>
-          <AnimatedSection delay={0.2}>
-            <div className="prose-trade">
-              <p>
-                Green coffee brokerage is the professional facilitation of coffee 
-                trade between producing origins and consuming markets. A broker 
-                connects buyers with suitable coffees, coordinates sampling and 
-                quality verification, supports contracting, and helps manage the 
-                logistics of international trade.
-              </p>
-              <p>
-                Unlike importers who take title to coffee and maintain inventory, 
-                brokers facilitate direct transactions between buyers and sellers. 
-                This model offers several advantages: access to a broader range of 
-                coffees, transparent pricing, direct relationship building, and 
-                flexibility in volume and timing.
-              </p>
-              <p>
-                At Imwera Coffee, we specialize in East African origins—Kenya, 
-                Ethiopia, and Uganda. Our deep knowledge of these markets, combined 
-                with strong partner relationships, allows us to source coffees that 
-                meet specific buyer requirements while maintaining transparency about 
-                origin and traceability.
-              </p>
-            </div>
-          </AnimatedSection>
+        <div className="container-wide">
+          <ImageTextSection
+            image={coffeeCupping}
+            imageAlt="Professional coffee cupping session"
+            title="What is Green Coffee Brokerage?"
+            imagePosition="left"
+          >
+            <p className="mb-4">
+              Green coffee brokerage is the professional facilitation of coffee 
+              trade between producing origins and consuming markets. A broker 
+              connects buyers with suitable coffees, coordinates sampling and 
+              quality verification, supports contracting, and helps manage the 
+              logistics of international trade.
+            </p>
+            <p className="mb-4">
+              Unlike importers who take title to coffee and maintain inventory, 
+              brokers facilitate direct transactions between buyers and sellers.
+            </p>
+            <p>
+              At Imwera Coffee, we specialize in East African origins—Kenya, 
+              Ethiopia, and Uganda. Our deep knowledge of these markets allows 
+              us to source coffees that meet specific buyer requirements.
+            </p>
+          </ImageTextSection>
         </div>
       </section>
 
-      {/* Image Divider */}
-      <ImageDivider image={coffeeSorting} alt="Coffee sample preparation" height="md" />
+      {/* Visual Break */}
+      <VisualBreak
+        image={dryingBeds}
+        alt="Coffee cherries drying on raised beds in East Africa"
+        caption="Natural processing requires careful attention during the extended drying period."
+        height="md"
+      />
 
       {/* Services */}
       <section className="section-lg bg-card">
@@ -148,48 +153,34 @@ const BrokerageSourcingPage = () => {
         </div>
       </section>
 
-      {/* Partner Relationships */}
+      {/* Image Divider */}
+      <ImageDivider image={coffeeSorting} alt="Coffee sample preparation" height="md" />
+
+      {/* Partner Relationships - Image/Text Split */}
       <section className="section-lg bg-card">
-        <div className="container-narrow">
-          <AnimatedSection>
-            <SectionHeader title="How We Work With Partners" />
-          </AnimatedSection>
-          <AnimatedSection delay={0.2}>
-            <div className="prose-trade">
-              <p>
-                Our ability to source quality coffee depends entirely on the partners 
-                we work with. We're selective about these relationships, prioritizing 
-                partners who share our commitment to quality, reliability, and 
-                transparent communication.
-              </p>
-              <h3>What We Look For in Partners</h3>
-              <ul>
-                <li>
-                  <strong>Quality consistency:</strong> Track record of producing or 
-                  exporting coffee that meets specialty standards
-                </li>
-                <li>
-                  <strong>Reliable communication:</strong> Responsive, honest, and 
-                  proactive about sharing information
-                </li>
-                <li>
-                  <strong>Traceability:</strong> Ability to document origin, 
-                  processing, and chain of custody
-                </li>
-                <li>
-                  <strong>Fair practices:</strong> Commitment to fair farmer payments 
-                  and sustainable operations
-                </li>
-              </ul>
-              <h3>What Partners Can Expect From Us</h3>
-              <ul>
-                <li>Clear communication of buyer requirements and quality expectations</li>
-                <li>Timely and constructive cupping feedback</li>
-                <li>Reliable payment facilitation and contract adherence</li>
-                <li>Long-term relationship focus, not just transactional engagement</li>
-              </ul>
-            </div>
-          </AnimatedSection>
+        <div className="container-wide">
+          <ImageTextSection
+            image={coffeeBagsWarehouse}
+            imageAlt="Green coffee bags stacked in warehouse"
+            title="How We Work With Partners"
+            imagePosition="right"
+          >
+            <p className="mb-4">
+              Our ability to source quality coffee depends entirely on the partners 
+              we work with. We're selective about these relationships, prioritizing 
+              partners who share our commitment to quality, reliability, and 
+              transparent communication.
+            </p>
+            <p className="mb-4">
+              <strong>What we look for:</strong> Quality consistency, reliable 
+              communication, full traceability, and fair practices with farmers.
+            </p>
+            <p>
+              <strong>What partners expect from us:</strong> Clear requirement 
+              communication, timely cupping feedback, reliable payment facilitation, 
+              and long-term relationship focus.
+            </p>
+          </ImageTextSection>
         </div>
       </section>
 

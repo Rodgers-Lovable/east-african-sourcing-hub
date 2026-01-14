@@ -5,10 +5,14 @@ import { CTABlock } from "@/components/CTABlock";
 import { AnimatedSection } from "@/components/AnimatedSection";
 import { PageHero } from "@/components/PageHero";
 import { ImageDivider } from "@/components/ImageDivider";
+import { ImageTextSection } from "@/components/ImageTextSection";
+import { VisualBreak } from "@/components/VisualBreak";
 import { company, principles } from "@/data/company";
 import heroAbout from "@/assets/hero-about.jpg";
 import coffeeSorting from "@/assets/coffee-sorting.jpg";
 import originEthiopia from "@/assets/origin-ethiopia.jpg";
+import processingStation from "@/assets/processing-station.jpg";
+import coffeeBagsWarehouse from "@/assets/coffee-bags-warehouse.jpg";
 
 const AboutPage = () => {
   return (
@@ -27,48 +31,42 @@ const AboutPage = () => {
         description="Imwera Coffee connects international buyers with high-quality coffees from trusted partners across Kenya, Ethiopia, and Uganda."
       />
 
-      {/* Who We Are */}
+      {/* Who We Are - Image/Text Split */}
       <section className="section-lg">
         <div className="container-wide">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-            <AnimatedSection direction="left">
-              <div className="prose-trade">
-                <SectionHeader title="Who We Are" />
-                <p>
-                  Imwera Coffee is an independent green coffee brokerage and sourcing 
-                  company based in Nairobi, Kenya. We operate across three of East 
-                  Africa's most distinguished specialty coffee origins: Kenya, Ethiopia, 
-                  and Uganda.
-                </p>
-                <p>
-                  Our focus is simple: connecting international buyers—roasters, importers, 
-                  and traders—with quality coffees from our carefully curated network of 
-                  producing partners. We handle the relationship management, quality 
-                  communication, and transaction coordination that makes cross-border 
-                  coffee trade work smoothly.
-                </p>
-                <p>
-                  We're not a producer. We're not (yet) a licensed Kenyan exporter. 
-                  We're brokers—specialists in facilitating connections and supporting 
-                  successful transactions between parties who might not otherwise find 
-                  each other.
-                </p>
-              </div>
-            </AnimatedSection>
-            <AnimatedSection direction="right" delay={0.2}>
-              <img
-                src={coffeeSorting}
-                alt="Green coffee beans being sorted by hand"
-                className="w-full h-auto rounded-sm"
-                loading="lazy"
-              />
-            </AnimatedSection>
-          </div>
+          <ImageTextSection
+            image={coffeeSorting}
+            imageAlt="Green coffee beans being sorted by hand"
+            title="Who We Are"
+            imagePosition="left"
+          >
+            <p className="mb-4">
+              Imwera Coffee is an independent green coffee brokerage and sourcing 
+              company based in Nairobi, Kenya. We operate across three of East 
+              Africa's most distinguished specialty coffee origins: Kenya, Ethiopia, 
+              and Uganda.
+            </p>
+            <p className="mb-4">
+              Our focus is simple: connecting international buyers—roasters, importers, 
+              and traders—with quality coffees from our carefully curated network of 
+              producing partners.
+            </p>
+            <p>
+              We're not a producer. We're brokers—specialists in facilitating connections 
+              and supporting successful transactions between parties who might not 
+              otherwise find each other.
+            </p>
+          </ImageTextSection>
         </div>
       </section>
 
-      {/* Image Divider */}
-      <ImageDivider image={originEthiopia} alt="Ethiopian coffee landscape" height="lg" />
+      {/* Visual Break */}
+      <VisualBreak
+        image={originEthiopia}
+        alt="Ethiopian coffee landscape with mountains"
+        caption="Ethiopia's highlands produce some of the world's most distinctive coffees."
+        height="lg"
+      />
 
       {/* Our Role */}
       <section className="section-lg bg-card">
@@ -138,39 +136,35 @@ const AboutPage = () => {
         </div>
       </section>
 
-      {/* Transparency */}
+      {/* Transparency - Image/Text Split (reversed) */}
       <section className="section-lg">
-        <div className="container-narrow">
-          <AnimatedSection>
-            <SectionHeader
-              title="Why Transparency Matters"
-              description="In a trade built on relationships and trust, clarity about roles and origins is fundamental."
-            />
-          </AnimatedSection>
-          <AnimatedSection delay={0.2}>
-            <div className="prose-trade mt-8">
-              <p>
-                The specialty coffee trade depends on trust. Buyers need to know where 
-                their coffee comes from, who produced it, and who handled it along the 
-                way. We believe transparency about our role in this chain strengthens 
-                rather than weakens our value proposition.
-              </p>
-              <p>
-                When we say "partner coffees" or "coffees we source," we mean exactly 
-                that—coffees produced by our partners that we're representing to buyers. 
-                We don't inflate our role or obscure theirs. This honesty creates clearer 
-                expectations and stronger relationships with both buyers and producers.
-              </p>
-              <p>
-                We also believe that transparency extends to limitations. We're not yet 
-                licensed to export Kenyan coffee directly. Rather than work around this 
-                fact, we're transparent about it and work with licensed partners to 
-                facilitate exports professionally and legally.
-              </p>
-            </div>
-          </AnimatedSection>
+        <div className="container-wide">
+          <ImageTextSection
+            image={processingStation}
+            imageAlt="Coffee processing station with drying beds"
+            title="Why Transparency Matters"
+            imagePosition="right"
+          >
+            <p className="mb-4">
+              The specialty coffee trade depends on trust. Buyers need to know where 
+              their coffee comes from, who produced it, and who handled it along the 
+              way.
+            </p>
+            <p className="mb-4">
+              When we say "partner coffees" or "coffees we source," we mean exactly 
+              that—coffees produced by our partners that we're representing to buyers. 
+              We don't inflate our role or obscure theirs.
+            </p>
+            <p>
+              This honesty creates clearer expectations and stronger relationships 
+              with both buyers and producers.
+            </p>
+          </ImageTextSection>
         </div>
       </section>
+
+      {/* Image Divider */}
+      <ImageDivider image={coffeeBagsWarehouse} alt="Green coffee bags in warehouse" height="md" />
 
       {/* Principles */}
       <section className="section-lg bg-card">

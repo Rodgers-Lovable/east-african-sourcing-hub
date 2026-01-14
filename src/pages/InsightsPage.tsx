@@ -3,10 +3,21 @@ import { Link } from "react-router-dom";
 import { Layout } from "@/components/Layout";
 import { SEOHead } from "@/components/SEOHead";
 import { InsightCard } from "@/components/InsightCard";
+import { InsightImageCard } from "@/components/InsightImageCard";
 import { AnimatedSection } from "@/components/AnimatedSection";
 import { PageHero } from "@/components/PageHero";
 import { insights, insightCategories } from "@/data/insights";
 import heroInsights from "@/assets/hero-insights.jpg";
+import dryingBeds from "@/assets/drying-beds.jpg";
+import coffeeCupping from "@/assets/coffee-cupping.jpg";
+import processingStation from "@/assets/processing-station.jpg";
+
+// Map insights to images for visual cards
+const insightImages: Record<string, string> = {
+  "understanding-harvest-windows-east-africa": dryingBeds,
+  "sampling-timelines-what-buyers-should-know": coffeeCupping,
+  "processing-methods-trade-implications": processingStation,
+};
 
 const InsightsPage = () => {
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
@@ -14,6 +25,10 @@ const InsightsPage = () => {
   const filteredInsights = activeCategory
     ? insights.filter((post) => post.category === activeCategory)
     : insights;
+
+  // Featured insights (first 3) get image cards
+  const featuredInsights = filteredInsights.slice(0, 3);
+  const remainingInsights = filteredInsights.slice(3);
 
   return (
     <Layout>
@@ -64,28 +79,52 @@ const InsightsPage = () => {
         </div>
       </section>
 
-      {/* Posts Grid */}
-      <section className="section-lg">
-        <div className="container-wide">
-          {filteredInsights.length > 0 ? (
+      {/* Featured Posts with Images */}
+      {featuredInsights.length > 0 && (
+        <section className="section-lg">
+          <div className="container-wide">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredInsights.map((post, index) => (
+              {featuredInsights.map((post, index) => (
+                <AnimatedSection key={post.id} delay={index * 0.1}>
+                  {insightImages[post.slug] ? (
+                    <InsightImageCard post={post} image={insightImages[post.slug]} />
+                  ) : (
+                    <InsightCard post={post} />
+                  )}
+                </AnimatedSection>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Remaining Posts */}
+      {remainingInsights.length > 0 && (
+        <section className="section-lg bg-card">
+          <div className="container-wide">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {remainingInsights.map((post, index) => (
                 <AnimatedSection key={post.id} delay={index * 0.1}>
                   <InsightCard post={post} />
                 </AnimatedSection>
               ))}
             </div>
-          ) : (
-            <div className="text-center py-16">
-              <p className="text-muted-foreground">
-                No posts in this category yet.
-              </p>
-            </div>
-          )}
-        </div>
-      </section>
+          </div>
+        </section>
+      )}
 
-      {/* Newsletter placeholder - no subscription form */}
+      {/* No Results */}
+      {filteredInsights.length === 0 && (
+        <section className="section-lg">
+          <div className="container-wide text-center py-16">
+            <p className="text-muted-foreground">
+              No posts in this category yet.
+            </p>
+          </div>
+        </section>
+      )}
+
+      {/* Newsletter placeholder */}
       <section className="section-lg bg-card">
         <div className="container-narrow text-center">
           <AnimatedSection>
