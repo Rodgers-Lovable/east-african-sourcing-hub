@@ -19,9 +19,24 @@ export const Header = () => {
   const [originsDropdownOpen, setOriginsDropdownOpen] = useState(false);
   const [mobileOriginsOpen, setMobileOriginsOpen] = useState(false);
   const [enquiryModalOpen, setEnquiryModalOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
   const dropdownRef = useRef<HTMLDivElement>(null);
   const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Handle scroll to toggle header background
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollThreshold = 80; // Scroll threshold in pixels
+      setIsScrolled(window.scrollY > scrollThreshold);
+    };
+    
+    // Check initial scroll position
+    handleScroll();
+    
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -57,13 +72,21 @@ export const Header = () => {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50 bg-card/95 backdrop-blur-sm border-b border-border transition-colors duration-300">
+      <header 
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          isScrolled 
+            ? "bg-card/95 backdrop-blur-sm border-b border-border" 
+            : "bg-transparent border-b border-transparent"
+        }`}
+      >
         <nav className="container-wide">
           <div className="flex items-center justify-between h-16 md:h-20">
             {/* Logo */}
             <Link 
               to="/" 
-              className="font-serif text-xl md:text-2xl font-medium text-foreground hover:text-accent transition-colors"
+              className={`font-serif text-xl md:text-2xl font-medium transition-colors hover:text-accent ${
+                isScrolled ? "text-foreground" : "text-white drop-shadow-md"
+              }`}
             >
               {company.name}
             </Link>
@@ -84,7 +107,9 @@ export const Header = () => {
                       className={`inline-flex items-center gap-1 text-sm font-medium transition-colors relative ${
                         isOriginActive
                           ? "text-accent after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-accent"
-                          : "text-muted-foreground hover:text-accent"
+                          : isScrolled 
+                            ? "text-muted-foreground hover:text-accent" 
+                            : "text-white/90 hover:text-white drop-shadow-md"
                       }`}
                     >
                       {item.name}
@@ -119,7 +144,9 @@ export const Header = () => {
                     className={`text-sm font-medium transition-colors relative ${
                       location.pathname === item.href || location.pathname.startsWith(item.href + "/")
                         ? "text-accent after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-accent"
-                        : "text-muted-foreground hover:text-accent"
+                        : isScrolled 
+                          ? "text-muted-foreground hover:text-accent" 
+                          : "text-white/90 hover:text-white drop-shadow-md"
                     }`}
                   >
                     {item.name}
@@ -142,7 +169,7 @@ export const Header = () => {
             <div className="flex items-center gap-2 md:hidden">
               <ThemeToggle />
               <button
-                className="p-2 text-foreground"
+                className={`p-2 transition-colors ${isScrolled ? "text-foreground" : "text-white drop-shadow-md"}`}
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                 aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
               >
