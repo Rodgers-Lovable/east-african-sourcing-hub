@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import { company } from "@/data/company";
 import { origins } from "@/data/origins";
 import { SourcingEnquiryModal } from "./SourcingEnquiryModal";
+import { ThemeToggle } from "./ThemeToggle";
 
 const navigation = [
   { name: "About", href: "/about" },
@@ -56,7 +57,7 @@ export const Header = () => {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border">
+      <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border transition-colors duration-300">
         <nav className="container-wide">
           <div className="flex items-center justify-between h-16 md:h-20">
             {/* Logo */}
@@ -68,7 +69,7 @@ export const Header = () => {
             </Link>
 
             {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center gap-8">
+            <div className="hidden md:flex items-center gap-6">
               {navigation.map((item) => (
                 item.hasDropdown ? (
                   <div
@@ -92,7 +93,7 @@ export const Header = () => {
                     
                     {/* Dropdown */}
                     {originsDropdownOpen && (
-                      <div className="absolute top-full left-0 mt-2 w-48 bg-background border border-border shadow-lg rounded-sm overflow-hidden animate-fade-in">
+                      <div className="absolute top-full left-0 mt-2 w-48 bg-popover border border-border shadow-lg rounded-sm overflow-hidden animate-fade-in">
                         {origins.map((origin) => (
                           <Link
                             key={origin.slug}
@@ -123,6 +124,10 @@ export const Header = () => {
                   </Link>
                 )
               ))}
+              
+              {/* Theme Toggle */}
+              <ThemeToggle />
+              
               <button
                 onClick={() => setEnquiryModalOpen(true)}
                 className="text-sm font-medium px-4 py-2 bg-primary text-primary-foreground hover:bg-secondary transition-colors"
@@ -132,13 +137,16 @@ export const Header = () => {
             </div>
 
             {/* Mobile Menu Button */}
-            <button
-              className="md:hidden p-2 text-foreground"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
-            >
-              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
+            <div className="flex items-center gap-2 md:hidden">
+              <ThemeToggle />
+              <button
+                className="p-2 text-foreground"
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+              >
+                {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              </button>
+            </div>
           </div>
 
           {/* Mobile Navigation */}
