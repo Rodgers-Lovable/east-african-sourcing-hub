@@ -35,7 +35,7 @@
     --warning-amber: 35 54% 50%;
     --error-rust: 9 53% 36%;
     
-    /* Semantic Mappings */
+    /* Semantic Mappings - Light Theme */
     --background: 40 33% 94%;
     --foreground: 0 0% 12%;
     
@@ -51,8 +51,8 @@
     --secondary: 18 17% 20%;
     --secondary-foreground: 40 33% 94%;
     
-    --muted: 40 14% 81%;
-    --muted-foreground: 0 0% 56%;
+    --muted: 40 14% 88%;
+    --muted-foreground: 0 0% 40%;
     
     --accent: 40 42% 54%;
     --accent-foreground: 0 0% 12%;
@@ -79,33 +79,60 @@
     /* Spacing */
     --section-padding: 5rem;
     --container-max: 1200px;
+    
+    /* Overlay strengths for images */
+    --overlay-hero: rgba(0, 0, 0, 0.4);
+    --overlay-card: rgba(0, 0, 0, 0.5);
   }
   
+  /* Dark Theme - Premium, Calm, Trade-Grade */
   .dark {
-    --background: 0 0% 12%;
-    --foreground: 40 33% 94%;
+    /* Dark backgrounds - warm charcoal, not pure black */
+    --background: 20 10% 8%;
+    --foreground: 40 20% 92%;
     
-    --card: 18 17% 15%;
-    --card-foreground: 40 33% 94%;
+    /* Card surfaces - slightly elevated */
+    --card: 20 10% 12%;
+    --card-foreground: 40 20% 92%;
     
-    --popover: 18 17% 15%;
-    --popover-foreground: 40 33% 94%;
+    /* Popover/dropdown surfaces */
+    --popover: 20 10% 14%;
+    --popover-foreground: 40 20% 92%;
     
-    --primary: 40 33% 94%;
-    --primary-foreground: 0 0% 12%;
+    /* Primary inverted for dark mode */
+    --primary: 40 20% 92%;
+    --primary-foreground: 20 10% 8%;
     
-    --secondary: 40 14% 81%;
-    --secondary-foreground: 0 0% 12%;
+    /* Secondary - lighter surface */
+    --secondary: 40 20% 85%;
+    --secondary-foreground: 20 10% 8%;
     
-    --muted: 18 17% 25%;
-    --muted-foreground: 0 0% 56%;
+    /* Muted - subtle dark surface */
+    --muted: 20 10% 18%;
+    --muted-foreground: 40 10% 60%;
     
-    --accent: 40 42% 54%;
-    --accent-foreground: 0 0% 12%;
+    /* Accent stays warm brass */
+    --accent: 40 45% 58%;
+    --accent-foreground: 20 10% 8%;
     
-    --border: 18 17% 25%;
-    --input: 18 17% 25%;
-    --ring: 40 42% 54%;
+    /* Borders - subtle definition */
+    --border: 20 10% 22%;
+    --input: 20 10% 22%;
+    --ring: 40 45% 58%;
+    
+    /* Status colors adjusted for dark */
+    --success: 129 20% 50%;
+    --success-foreground: 20 10% 8%;
+    
+    --warning: 35 60% 55%;
+    --warning-foreground: 20 10% 8%;
+    
+    --destructive: 9 60% 50%;
+    --destructive-foreground: 40 20% 92%;
+    
+    /* Stronger overlays for dark mode */
+    --overlay-hero: rgba(0, 0, 0, 0.55);
+    --overlay-card: rgba(0, 0, 0, 0.65);
   }
 }
 
@@ -118,11 +145,20 @@
     scroll-behavior: smooth;
   }
   
+  /* Smooth theme transitions */
+  html.transitioning,
+  html.transitioning *,
+  html.transitioning *::before,
+  html.transitioning *::after {
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.15s ease !important;
+  }
+  
   body {
     @apply bg-background text-foreground antialiased;
     font-family: var(--font-sans);
     line-height: 1.7;
     letter-spacing: -0.01em;
+    transition: background-color 0.3s ease;
   }
   
   h1, h2, h3, h4, h5, h6 {
