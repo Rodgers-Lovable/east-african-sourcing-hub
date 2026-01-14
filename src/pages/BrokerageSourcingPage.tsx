@@ -5,7 +5,7 @@ import { SEOHead } from "@/components/SEOHead";
 import { SectionHeader } from "@/components/SectionHeader";
 import { FAQBlock } from "@/components/FAQBlock";
 import { CTABlock } from "@/components/CTABlock";
-import { services } from "@/data/company";
+import { services } from "@/data/services";
 import { brokerageFaqs } from "@/data/faqs";
 
 const BrokerageSourcingPage = () => {

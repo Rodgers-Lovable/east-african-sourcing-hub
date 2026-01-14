@@ -7,7 +7,8 @@ import { ServiceCard } from "@/components/ServiceCard";
 import { OriginCard } from "@/components/OriginCard";
 import { InsightCard } from "@/components/InsightCard";
 import { CTABlock } from "@/components/CTABlock";
-import { company, services, principles } from "@/data/company";
+import { company, principles } from "@/data/company";
+import { services } from "@/data/services";
 import { origins } from "@/data/origins";
 import { insights } from "@/data/insights";
 import heroImage from "@/assets/hero-coffee-landscape.jpg";
@@ -61,15 +62,18 @@ const Index = () => {
           <div className="prose-trade">
             <h2>Independent Brokerage, Trusted Sourcing</h2>
             <p className="text-lg">
-              Imwera Coffee is an independent green coffee brokerage operating across East Africa's 
-              premier specialty origins. We connect international buyers—roasters, importers, and 
-              traders—with high-quality coffees sourced through our network of trusted partners.
+              Imwera Coffee is an independent green coffee brokerage operating
+              across East Africa's premier specialty origins. We connect
+              international buyers—roasters, importers, and traders—with
+              high-quality coffees sourced through our network of trusted
+              partners.
             </p>
             <p>
-              We don't produce coffee. We don't claim ownership of the coffees we represent. 
-              Instead, we focus on what we do best: building relationships, verifying quality, 
-              coordinating logistics, and facilitating transparent transactions between buyers 
-              and our partner producers and exporters.
+              We don't produce coffee. We don't claim ownership of the coffees
+              we represent. Instead, we focus on what we do best: building
+              relationships, verifying quality, coordinating logistics, and
+              facilitating transparent transactions between buyers and our
+              partner producers and exporters.
             </p>
             <p className="text-sm text-muted-foreground italic mt-6">
               {company.forwardStatement}
