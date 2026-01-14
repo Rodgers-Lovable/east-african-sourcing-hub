@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Input } from "@/components/ui/input";
@@ -6,16 +6,43 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
+import { useEmailJS } from "@/hooks/useEmailJS";
 
 interface SourcingEnquiryModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-type FormStatus = "idle" | "submitting" | "success";
+interface FormData {
+  name: string;
+  company: string;
+  role: string;
+  email: string;
+  country: string;
+  origins: string[];
+  volume: string;
+  shippingWindow: string;
+  processingPreference: string;
+  notes: string;
+}
+
+const initialFormData: FormData = {
+  name: "",
+  company: "",
+  role: "",
+  email: "",
+  country: "",
+  origins: [],
+  volume: "",
+  shippingWindow: "",
+  processingPreference: "",
+  notes: "",
+};
 
 export const SourcingEnquiryModal = ({ isOpen, onClose }: SourcingEnquiryModalProps) => {
-  const [status, setStatus] = useState<FormStatus>("idle");
+  const [formData, setFormData] = useState<FormData>(initialFormData);
+  const { status, submitSourcingEnquiry, resetStatus } = useEmailJS();
+  const formRef = useRef<HTMLFormElement>(null);
 
   // Lock body scroll when modal is open
   useEffect(() => {
@@ -40,16 +67,43 @@ export const SourcingEnquiryModal = ({ isOpen, onClose }: SourcingEnquiryModalPr
     return () => document.removeEventListener("keydown", handleEscape);
   }, [isOpen, onClose]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleInputChange = (field: keyof FormData, value: string) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+  };
+
+  const handleOriginToggle = (origin: string, checked: boolean) => {
+    setFormData(prev => ({
+      ...prev,
+      origins: checked 
+        ? [...prev.origins, origin]
+        : prev.origins.filter(o => o !== origin)
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setStatus("submitting");
-    setTimeout(() => {
-      setStatus("success");
-    }, 1200);
+    
+    try {
+      await submitSourcingEnquiry({
+        name: formData.name,
+        company: formData.company,
+        role: formData.role,
+        email: formData.email,
+        country: formData.country,
+        origins: formData.origins,
+        volume: formData.volume,
+        shippingWindow: formData.shippingWindow,
+        processingPreference: formData.processingPreference,
+        notes: formData.notes,
+      });
+    } catch {
+      // Error is handled by the hook
+    }
   };
 
   const handleClose = () => {
-    setStatus("idle");
+    setFormData(initialFormData);
+    resetStatus();
     onClose();
   };
 
@@ -121,7 +175,7 @@ export const SourcingEnquiryModal = ({ isOpen, onClose }: SourcingEnquiryModalPr
                   </div>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit} className="flex-1 flex flex-col overflow-hidden">
+                <form ref={formRef} onSubmit={handleSubmit} className="flex-1 flex flex-col overflow-hidden">
                   <div className="flex-1 overflow-y-auto px-6 py-6">
                     <div className="max-w-5xl mx-auto">
                       <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-12 gap-y-8">
@@ -133,26 +187,56 @@ export const SourcingEnquiryModal = ({ isOpen, onClose }: SourcingEnquiryModalPr
                           <div className="grid grid-cols-2 gap-4">
                             <div>
                               <Label htmlFor="name" className="text-sm">Full Name *</Label>
-                              <Input id="name" required className="mt-1.5" />
+                              <Input 
+                                id="name" 
+                                required 
+                                className="mt-1.5"
+                                value={formData.name}
+                                onChange={(e) => handleInputChange("name", e.target.value)}
+                              />
                             </div>
                             <div>
                               <Label htmlFor="company" className="text-sm">Company *</Label>
-                              <Input id="company" required className="mt-1.5" />
+                              <Input 
+                                id="company" 
+                                required 
+                                className="mt-1.5"
+                                value={formData.company}
+                                onChange={(e) => handleInputChange("company", e.target.value)}
+                              />
                             </div>
                           </div>
                           <div className="grid grid-cols-2 gap-4">
                             <div>
                               <Label htmlFor="role" className="text-sm">Role</Label>
-                              <Input id="role" className="mt-1.5" />
+                              <Input 
+                                id="role" 
+                                className="mt-1.5"
+                                value={formData.role}
+                                onChange={(e) => handleInputChange("role", e.target.value)}
+                              />
                             </div>
                             <div>
                               <Label htmlFor="email" className="text-sm">Email *</Label>
-                              <Input id="email" type="email" required className="mt-1.5" />
+                              <Input 
+                                id="email" 
+                                type="email" 
+                                required 
+                                className="mt-1.5"
+                                value={formData.email}
+                                onChange={(e) => handleInputChange("email", e.target.value)}
+                              />
                             </div>
                           </div>
                           <div>
                             <Label htmlFor="country" className="text-sm">Buyer Country *</Label>
-                            <Input id="country" required className="mt-1.5" />
+                            <Input 
+                              id="country" 
+                              required 
+                              className="mt-1.5"
+                              value={formData.country}
+                              onChange={(e) => handleInputChange("country", e.target.value)}
+                            />
                           </div>
                         </div>
 
@@ -166,7 +250,11 @@ export const SourcingEnquiryModal = ({ isOpen, onClose }: SourcingEnquiryModalPr
                             <div className="flex flex-wrap gap-4 mt-2">
                               {["Kenya", "Ethiopia", "Uganda"].map((origin) => (
                                 <div key={origin} className="flex items-center gap-2">
-                                  <Checkbox id={`origin-${origin}`} />
+                                  <Checkbox 
+                                    id={`origin-${origin}`}
+                                    checked={formData.origins.includes(origin)}
+                                    onCheckedChange={(checked) => handleOriginToggle(origin, checked as boolean)}
+                                  />
                                   <Label htmlFor={`origin-${origin}`} className="font-normal text-sm">{origin}</Label>
                                 </div>
                               ))}
@@ -175,7 +263,7 @@ export const SourcingEnquiryModal = ({ isOpen, onClose }: SourcingEnquiryModalPr
                           <div className="grid grid-cols-2 gap-4">
                             <div>
                               <Label className="text-sm">Expected Volume</Label>
-                              <Select>
+                              <Select value={formData.volume} onValueChange={(value) => handleInputChange("volume", value)}>
                                 <SelectTrigger className="mt-1.5">
                                   <SelectValue placeholder="Select volume" />
                                 </SelectTrigger>
@@ -190,12 +278,24 @@ export const SourcingEnquiryModal = ({ isOpen, onClose }: SourcingEnquiryModalPr
                             </div>
                             <div>
                               <Label htmlFor="shipping" className="text-sm">Shipping Window</Label>
-                              <Input id="shipping" placeholder="e.g., Q2 2026" className="mt-1.5" />
+                              <Input 
+                                id="shipping" 
+                                placeholder="e.g., Q2 2026" 
+                                className="mt-1.5"
+                                value={formData.shippingWindow}
+                                onChange={(e) => handleInputChange("shippingWindow", e.target.value)}
+                              />
                             </div>
                           </div>
                           <div>
                             <Label htmlFor="processing" className="text-sm">Processing Preference</Label>
-                            <Input id="processing" placeholder="e.g., Washed, Natural" className="mt-1.5" />
+                            <Input 
+                              id="processing" 
+                              placeholder="e.g., Washed, Natural" 
+                              className="mt-1.5"
+                              value={formData.processingPreference}
+                              onChange={(e) => handleInputChange("processingPreference", e.target.value)}
+                            />
                           </div>
                         </div>
                       </div>
@@ -210,6 +310,8 @@ export const SourcingEnquiryModal = ({ isOpen, onClose }: SourcingEnquiryModalPr
                           rows={3}
                           placeholder="Profile targets, specific regions, certifications, or any other requirements..."
                           className="resize-none"
+                          value={formData.notes}
+                          onChange={(e) => handleInputChange("notes", e.target.value)}
                         />
                       </div>
                     </div>

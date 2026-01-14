@@ -11,25 +11,112 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useEmailJS } from "@/hooks/useEmailJS";
 import heroContact from "@/assets/hero-contact.jpg";
 
-type FormStatus = "idle" | "submitting" | "success" | "error";
+// General Contact Form Data
+interface GeneralFormData {
+  name: string;
+  company: string;
+  email: string;
+  country: string;
+  buyerType: string;
+  message: string;
+}
+
+const initialGeneralData: GeneralFormData = {
+  name: "",
+  company: "",
+  email: "",
+  country: "",
+  buyerType: "",
+  message: "",
+};
+
+// Partner Introduction Form Data
+interface PartnerFormData {
+  name: string;
+  organization: string;
+  role: string;
+  email: string;
+  country: string;
+  representing: string;
+  description: string;
+  websiteLink: string;
+}
+
+const initialPartnerData: PartnerFormData = {
+  name: "",
+  organization: "",
+  role: "",
+  email: "",
+  country: "",
+  representing: "",
+  description: "",
+  websiteLink: "",
+};
 
 const ContactPage = () => {
-  const [generalStatus, setGeneralStatus] = useState<FormStatus>("idle");
-  const [partnerStatus, setPartnerStatus] = useState<FormStatus>("idle");
   const [enquiryModalOpen, setEnquiryModalOpen] = useState(false);
+  
+  // General Contact Form
+  const [generalData, setGeneralData] = useState<GeneralFormData>(initialGeneralData);
+  const { 
+    status: generalStatus, 
+    submitGeneralContact, 
+    resetStatus: resetGeneralStatus 
+  } = useEmailJS();
 
-  const handleGeneralSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setGeneralStatus("submitting");
-    setTimeout(() => setGeneralStatus("success"), 1000);
+  // Partner Introduction Form
+  const [partnerData, setPartnerData] = useState<PartnerFormData>(initialPartnerData);
+  const { 
+    status: partnerStatus, 
+    submitPartnerIntro, 
+    resetStatus: resetPartnerStatus 
+  } = useEmailJS();
+
+  const handleGeneralChange = (field: keyof GeneralFormData, value: string) => {
+    setGeneralData(prev => ({ ...prev, [field]: value }));
   };
 
-  const handlePartnerSubmit = (e: React.FormEvent) => {
+  const handlePartnerChange = (field: keyof PartnerFormData, value: string) => {
+    setPartnerData(prev => ({ ...prev, [field]: value }));
+  };
+
+  const handleGeneralSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setPartnerStatus("submitting");
-    setTimeout(() => setPartnerStatus("success"), 1000);
+    try {
+      await submitGeneralContact({
+        name: generalData.name,
+        company: generalData.company,
+        email: generalData.email,
+        country: generalData.country,
+        buyerType: generalData.buyerType,
+        message: generalData.message,
+      });
+      setGeneralData(initialGeneralData);
+    } catch {
+      // Error is handled by the hook
+    }
+  };
+
+  const handlePartnerSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      await submitPartnerIntro({
+        name: partnerData.name,
+        organization: partnerData.organization,
+        role: partnerData.role,
+        email: partnerData.email,
+        country: partnerData.country,
+        representing: partnerData.representing,
+        description: partnerData.description,
+        websiteLink: partnerData.websiteLink,
+      });
+      setPartnerData(initialPartnerData);
+    } catch {
+      // Error is handled by the hook
+    }
   };
 
   return (
@@ -113,24 +200,91 @@ const ContactPage = () => {
             {generalStatus === "success" ? (
               <div className="p-6 border border-success text-success text-center">
                 <p className="font-medium">Thank you for your message. We'll be in touch soon.</p>
+                <button
+                  onClick={() => resetGeneralStatus()}
+                  className="mt-4 text-sm text-accent hover:underline"
+                >
+                  Send another message
+                </button>
               </div>
             ) : (
               <form onSubmit={handleGeneralSubmit} className="space-y-6 mt-8">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div><Label htmlFor="gen-name">Full Name *</Label><Input id="gen-name" required className="mt-2" /></div>
-                  <div><Label htmlFor="gen-company">Company</Label><Input id="gen-company" className="mt-2" /></div>
+                  <div>
+                    <Label htmlFor="gen-name">Full Name *</Label>
+                    <Input 
+                      id="gen-name" 
+                      required 
+                      className="mt-2"
+                      value={generalData.name}
+                      onChange={(e) => handleGeneralChange("name", e.target.value)}
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="gen-company">Company</Label>
+                    <Input 
+                      id="gen-company" 
+                      className="mt-2"
+                      value={generalData.company}
+                      onChange={(e) => handleGeneralChange("company", e.target.value)}
+                    />
+                  </div>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div><Label htmlFor="gen-email">Email *</Label><Input id="gen-email" type="email" required className="mt-2" /></div>
-                  <div><Label htmlFor="gen-country">Country *</Label><Input id="gen-country" required className="mt-2" /></div>
+                  <div>
+                    <Label htmlFor="gen-email">Email *</Label>
+                    <Input 
+                      id="gen-email" 
+                      type="email" 
+                      required 
+                      className="mt-2"
+                      value={generalData.email}
+                      onChange={(e) => handleGeneralChange("email", e.target.value)}
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="gen-country">Country *</Label>
+                    <Input 
+                      id="gen-country" 
+                      required 
+                      className="mt-2"
+                      value={generalData.country}
+                      onChange={(e) => handleGeneralChange("country", e.target.value)}
+                    />
+                  </div>
                 </div>
-                <div><Label htmlFor="gen-type">Buyer Type</Label>
-                  <Select><SelectTrigger className="mt-2"><SelectValue placeholder="Select type" /></SelectTrigger>
-                    <SelectContent><SelectItem value="roaster">Roaster</SelectItem><SelectItem value="trader">Trader</SelectItem><SelectItem value="importer">Importer</SelectItem><SelectItem value="exporter">Exporter</SelectItem><SelectItem value="producer">Producer</SelectItem><SelectItem value="other">Other</SelectItem></SelectContent>
+                <div>
+                  <Label htmlFor="gen-type">Buyer Type</Label>
+                  <Select value={generalData.buyerType} onValueChange={(value) => handleGeneralChange("buyerType", value)}>
+                    <SelectTrigger className="mt-2">
+                      <SelectValue placeholder="Select type" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="roaster">Roaster</SelectItem>
+                      <SelectItem value="trader">Trader</SelectItem>
+                      <SelectItem value="importer">Importer</SelectItem>
+                      <SelectItem value="exporter">Exporter</SelectItem>
+                      <SelectItem value="producer">Producer</SelectItem>
+                      <SelectItem value="other">Other</SelectItem>
+                    </SelectContent>
                   </Select>
                 </div>
-                <div><Label htmlFor="gen-message">Message *</Label><Textarea id="gen-message" required rows={5} className="mt-2" /></div>
-                <button type="submit" disabled={generalStatus === "submitting"} className="px-6 py-3 bg-accent text-accent-foreground hover:bg-[hsl(42,50%,63%)] hover:shadow-md transition-all font-medium disabled:opacity-50">
+                <div>
+                  <Label htmlFor="gen-message">Message *</Label>
+                  <Textarea 
+                    id="gen-message" 
+                    required 
+                    rows={5} 
+                    className="mt-2"
+                    value={generalData.message}
+                    onChange={(e) => handleGeneralChange("message", e.target.value)}
+                  />
+                </div>
+                <button 
+                  type="submit" 
+                  disabled={generalStatus === "submitting"} 
+                  className="px-6 py-3 bg-accent text-accent-foreground hover:bg-[hsl(42,50%,63%)] hover:shadow-md transition-all font-medium disabled:opacity-50"
+                >
                   {generalStatus === "submitting" ? "Sending..." : "Send Message"}
                 </button>
               </form>
@@ -150,26 +304,112 @@ const ContactPage = () => {
             {partnerStatus === "success" ? (
               <div className="p-6 border border-success text-success text-center">
                 <p className="font-medium">Thank you for your introduction. We'll review and follow up if there's a fit.</p>
+                <button
+                  onClick={() => resetPartnerStatus()}
+                  className="mt-4 text-sm text-accent hover:underline"
+                >
+                  Submit another introduction
+                </button>
               </div>
             ) : (
               <form onSubmit={handlePartnerSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div><Label htmlFor="ptr-name">Name *</Label><Input id="ptr-name" required className="mt-2" /></div>
-                  <div><Label htmlFor="ptr-org">Organization *</Label><Input id="ptr-org" required className="mt-2" /></div>
+                  <div>
+                    <Label htmlFor="ptr-name">Name *</Label>
+                    <Input 
+                      id="ptr-name" 
+                      required 
+                      className="mt-2"
+                      value={partnerData.name}
+                      onChange={(e) => handlePartnerChange("name", e.target.value)}
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="ptr-org">Organization *</Label>
+                    <Input 
+                      id="ptr-org" 
+                      required 
+                      className="mt-2"
+                      value={partnerData.organization}
+                      onChange={(e) => handlePartnerChange("organization", e.target.value)}
+                    />
+                  </div>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div><Label htmlFor="ptr-role">Role *</Label><Input id="ptr-role" required className="mt-2" /></div>
-                  <div><Label htmlFor="ptr-email">Email *</Label><Input id="ptr-email" type="email" required className="mt-2" /></div>
+                  <div>
+                    <Label htmlFor="ptr-role">Role *</Label>
+                    <Input 
+                      id="ptr-role" 
+                      required 
+                      className="mt-2"
+                      value={partnerData.role}
+                      onChange={(e) => handlePartnerChange("role", e.target.value)}
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="ptr-email">Email *</Label>
+                    <Input 
+                      id="ptr-email" 
+                      type="email" 
+                      required 
+                      className="mt-2"
+                      value={partnerData.email}
+                      onChange={(e) => handlePartnerChange("email", e.target.value)}
+                    />
+                  </div>
                 </div>
-                <div><Label htmlFor="ptr-country">Country of Operation *</Label><Input id="ptr-country" required className="mt-2" /></div>
-                <div><Label>Representing</Label>
-                  <Select><SelectTrigger className="mt-2"><SelectValue placeholder="Select type" /></SelectTrigger>
-                    <SelectContent><SelectItem value="farm">Farm / Estate</SelectItem><SelectItem value="coop">Cooperative / Union</SelectItem><SelectItem value="exporter">Exporter</SelectItem><SelectItem value="milling">Milling / Processing</SelectItem><SelectItem value="other">Other</SelectItem></SelectContent>
+                <div>
+                  <Label htmlFor="ptr-country">Country of Operation *</Label>
+                  <Input 
+                    id="ptr-country" 
+                    required 
+                    className="mt-2"
+                    value={partnerData.country}
+                    onChange={(e) => handlePartnerChange("country", e.target.value)}
+                  />
+                </div>
+                <div>
+                  <Label>Representing</Label>
+                  <Select value={partnerData.representing} onValueChange={(value) => handlePartnerChange("representing", value)}>
+                    <SelectTrigger className="mt-2">
+                      <SelectValue placeholder="Select type" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="farm">Farm / Estate</SelectItem>
+                      <SelectItem value="coop">Cooperative / Union</SelectItem>
+                      <SelectItem value="exporter">Exporter</SelectItem>
+                      <SelectItem value="milling">Milling / Processing</SelectItem>
+                      <SelectItem value="other">Other</SelectItem>
+                    </SelectContent>
                   </Select>
                 </div>
-                <div><Label htmlFor="ptr-desc">Brief Description *</Label><Textarea id="ptr-desc" required rows={4} placeholder="Tell us about your organization, production, and what you're looking for..." className="mt-2" /></div>
-                <div><Label htmlFor="ptr-link">Website / Reference Link</Label><Input id="ptr-link" placeholder="https://..." className="mt-2" /></div>
-                <button type="submit" disabled={partnerStatus === "submitting"} className="px-6 py-3 bg-accent text-accent-foreground hover:bg-[hsl(42,50%,63%)] hover:shadow-md transition-all font-medium disabled:opacity-50">
+                <div>
+                  <Label htmlFor="ptr-desc">Brief Description *</Label>
+                  <Textarea 
+                    id="ptr-desc" 
+                    required 
+                    rows={4} 
+                    placeholder="Tell us about your organization, production, and what you're looking for..." 
+                    className="mt-2"
+                    value={partnerData.description}
+                    onChange={(e) => handlePartnerChange("description", e.target.value)}
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="ptr-link">Website / Reference Link</Label>
+                  <Input 
+                    id="ptr-link" 
+                    placeholder="https://..." 
+                    className="mt-2"
+                    value={partnerData.websiteLink}
+                    onChange={(e) => handlePartnerChange("websiteLink", e.target.value)}
+                  />
+                </div>
+                <button 
+                  type="submit" 
+                  disabled={partnerStatus === "submitting"} 
+                  className="px-6 py-3 bg-accent text-accent-foreground hover:bg-[hsl(42,50%,63%)] hover:shadow-md transition-all font-medium disabled:opacity-50"
+                >
                   {partnerStatus === "submitting" ? "Submitting..." : "Submit Introduction"}
                 </button>
               </form>
