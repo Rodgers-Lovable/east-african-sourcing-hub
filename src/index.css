@@ -85,54 +85,57 @@
     --overlay-card: rgba(0, 0, 0, 0.5);
   }
   
-  /* Dark Theme - Premium, Calm, Trade-Grade */
+  /* Dark Theme - Premium Soft Slate / Deep Charcoal */
   .dark {
-    /* Dark backgrounds - warm charcoal, not pure black */
-    --background: 20 10% 8%;
-    --foreground: 40 20% 92%;
+    /* Slate Charcoal backgrounds - soft, not pure black */
+    --background: 210 10% 16%;          /* #252A2E - Slate Charcoal */
+    --foreground: 40 18% 93%;           /* #F3EFE6 - Warm Light */
     
-    /* Card surfaces - slightly elevated */
-    --card: 20 10% 12%;
-    --card-foreground: 40 20% 92%;
+    /* Elevated surfaces for cards */
+    --card: 210 9% 21%;                 /* #2F353A - Elevated Slate */
+    --card-foreground: 40 18% 93%;
     
-    /* Popover/dropdown surfaces */
-    --popover: 20 10% 14%;
-    --popover-foreground: 40 20% 92%;
+    /* Popover/dropdown surfaces - elevated */
+    --popover: 210 9% 21%;
+    --popover-foreground: 40 18% 93%;
     
-    /* Primary inverted for dark mode */
-    --primary: 40 20% 92%;
-    --primary-foreground: 20 10% 8%;
+    /* Primary - uses accent brass for buttons */
+    --primary: 40 42% 54%;              /* Aged Brass as primary */
+    --primary-foreground: 210 10% 16%;  /* Dark text on brass */
     
-    /* Secondary - lighter surface */
-    --secondary: 40 20% 85%;
-    --secondary-foreground: 20 10% 8%;
+    /* Secondary - warm light for contrast */
+    --secondary: 210 8% 26%;            /* Subtle section bg */
+    --secondary-foreground: 40 18% 93%;
     
-    /* Muted - subtle dark surface */
-    --muted: 20 10% 18%;
-    --muted-foreground: 40 10% 60%;
+    /* Muted surfaces */
+    --muted: 210 8% 24%;
+    --muted-foreground: 40 10% 75%;     /* #C9C3B8 - Muted Warm Grey */
     
-    /* Accent stays warm brass */
-    --accent: 40 45% 58%;
-    --accent-foreground: 20 10% 8%;
+    /* Accent - Aged Brass prominent */
+    --accent: 40 42% 54%;               /* #B89A5B - Aged Brass */
+    --accent-foreground: 210 10% 16%;
     
-    /* Borders - subtle definition */
-    --border: 20 10% 22%;
-    --input: 20 10% 22%;
-    --ring: 40 45% 58%;
+    /* Accent hover - brighter brass */
+    --accent-hover: 42 50% 63%;         /* #D2B46F - Brighter Brass */
     
-    /* Status colors adjusted for dark */
-    --success: 129 20% 50%;
-    --success-foreground: 20 10% 8%;
+    /* Borders - visible but subtle slate lines */
+    --border: 210 8% 28%;               /* #3C444B - Soft Slate Line */
+    --input: 210 8% 30%;                /* Slightly lighter for inputs */
+    --ring: 40 42% 54%;
     
-    --warning: 35 60% 55%;
-    --warning-foreground: 20 10% 8%;
+    /* Status colors - muted for dark */
+    --success: 129 15% 43%;             /* #5F7A63 */
+    --success-foreground: 40 18% 93%;
     
-    --destructive: 9 60% 50%;
-    --destructive-foreground: 40 20% 92%;
+    --warning: 32 55% 49%;              /* #C28B3C */
+    --warning-foreground: 210 10% 16%;
     
-    /* Stronger overlays for dark mode */
-    --overlay-hero: rgba(0, 0, 0, 0.55);
-    --overlay-card: rgba(0, 0, 0, 0.65);
+    --destructive: 12 54% 36%;          /* #8C3A2B */
+    --destructive-foreground: 40 18% 93%;
+    
+    /* Softer overlays for dark mode - keep images vibrant */
+    --overlay-hero: rgba(0, 0, 0, 0.4);
+    --overlay-card: rgba(0, 0, 0, 0.45);
   }
 }
 
@@ -236,13 +239,17 @@
     @apply border-accent shadow-sm;
   }
   
-  /* Link Styles */
+  /* Link Styles - Brass accent with clear hover */
   .link-brass {
-    @apply text-foreground hover:text-accent transition-colors duration-200;
+    @apply text-accent hover:text-[hsl(42,50%,63%)] transition-colors duration-200 underline-offset-4;
+  }
+  
+  .link-brass:hover {
+    @apply underline;
   }
   
   .link-underline {
-    @apply relative inline-block text-foreground;
+    @apply relative inline-block text-accent;
   }
   
   .link-underline::after {
@@ -252,6 +259,16 @@
   
   .link-underline:hover::after {
     @apply w-full;
+  }
+  
+  /* Active nav indicator */
+  .nav-active {
+    @apply relative text-accent;
+  }
+  
+  .nav-active::after {
+    content: "";
+    @apply absolute -bottom-1 left-0 w-full h-0.5 bg-accent;
   }
   
   /* Form States */

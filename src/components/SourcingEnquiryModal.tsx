@@ -68,12 +68,12 @@ export const SourcingEnquiryModal = ({ isOpen, onClose }: SourcingEnquiryModalPr
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.98 }}
             transition={{ duration: 0.2 }}
-            className="relative w-full h-full flex flex-col bg-background overflow-hidden"
+            className="relative w-full h-full flex flex-col bg-card overflow-hidden"
           >
             {/* Header */}
-            <div className="flex items-center justify-between px-6 py-4 border-b border-border shrink-0">
+            <div className="flex items-center justify-between px-6 py-4 border-b border-border shrink-0 bg-card">
               <div>
-                <h2 className="font-serif text-xl md:text-2xl">Coffee Sourcing Enquiry</h2>
+                <h2 className="font-serif text-xl md:text-2xl text-foreground">Coffee Sourcing Enquiry</h2>
                 <p className="text-sm text-muted-foreground mt-1 hidden sm:block">
                   Tell us about your sourcing requirements
                 </p>
@@ -82,7 +82,7 @@ export const SourcingEnquiryModal = ({ isOpen, onClose }: SourcingEnquiryModalPr
                 <span className="text-xs text-muted-foreground hidden md:block">Esc to close</span>
                 <button
                   onClick={handleClose}
-                  className="p-2 hover:bg-muted rounded transition-colors"
+                  className="p-2 hover:bg-accent/10 hover:text-accent rounded transition-colors"
                   aria-label="Close modal"
                 >
                   <X className="w-5 h-5" />
@@ -114,7 +114,7 @@ export const SourcingEnquiryModal = ({ isOpen, onClose }: SourcingEnquiryModalPr
                     </div>
                     <button
                       onClick={handleClose}
-                      className="mt-8 px-6 py-3 bg-primary text-primary-foreground hover:bg-secondary transition-colors font-medium"
+                      className="mt-8 px-6 py-3 bg-accent text-accent-foreground hover:bg-[hsl(42,50%,63%)] transition-all font-medium"
                     >
                       Close
                     </button>
@@ -216,19 +216,19 @@ export const SourcingEnquiryModal = ({ isOpen, onClose }: SourcingEnquiryModalPr
                   </div>
 
                   {/* Footer Actions */}
-                  <div className="shrink-0 px-6 py-4 border-t border-border bg-muted/30">
+                  <div className="shrink-0 px-6 py-4 border-t border-border bg-muted/50">
                     <div className="max-w-5xl mx-auto flex items-center justify-end gap-4">
                       <button
                         type="button"
                         onClick={handleClose}
-                        className="px-6 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+                        className="px-6 py-2.5 text-sm font-medium text-muted-foreground hover:text-accent transition-colors"
                       >
                         Close
                       </button>
                       <button
                         type="submit"
                         disabled={status === "submitting"}
-                        className="px-6 py-2.5 bg-primary text-primary-foreground hover:bg-secondary transition-colors font-medium text-sm disabled:opacity-50"
+                        className="px-6 py-2.5 bg-accent text-accent-foreground hover:bg-[hsl(42,50%,63%)] hover:shadow-md transition-all font-medium text-sm disabled:opacity-50"
                       >
                         {status === "submitting" ? "Submitting..." : "Submit Enquiry"}
                       </button>
