@@ -4,14 +4,27 @@ import { Layout } from "@/components/Layout";
 import { SEOHead } from "@/components/SEOHead";
 import { SectionHeader } from "@/components/SectionHeader";
 import { ServiceCard } from "@/components/ServiceCard";
-import { OriginCard } from "@/components/OriginCard";
+import { OriginImageCard } from "@/components/OriginImageCard";
 import { InsightCard } from "@/components/InsightCard";
 import { CTABlock } from "@/components/CTABlock";
+import { AnimatedSection } from "@/components/AnimatedSection";
+import { PageHero } from "@/components/PageHero";
+import { ImageDivider } from "@/components/ImageDivider";
 import { company, principles } from "@/data/company";
 import { services } from "@/data/services";
 import { origins } from "@/data/origins";
 import { insights } from "@/data/insights";
 import heroImage from "@/assets/hero-coffee-landscape.jpg";
+import coffeeSorting from "@/assets/coffee-sorting.jpg";
+import originKenya from "@/assets/origin-kenya.jpg";
+import originEthiopia from "@/assets/origin-ethiopia.jpg";
+import originUganda from "@/assets/origin-uganda.jpg";
+
+const originImages: Record<string, string> = {
+  kenya: originKenya,
+  ethiopia: originEthiopia,
+  uganda: originUganda,
+};
 
 const Index = () => {
   return (
@@ -19,154 +32,167 @@ const Index = () => {
       <SEOHead />
 
       {/* Hero Section */}
-      <section className="relative min-h-[80vh] flex items-center">
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: `url(${heroImage})` }}
-        >
-          <div className="absolute inset-0 bg-primary/70" />
+      <PageHero
+        image={heroImage}
+        tag="Kenya · Ethiopia · Uganda"
+        title={company.tagline}
+        description={company.description}
+        size="large"
+      >
+        <div className="flex flex-col sm:flex-row gap-4">
+          <Link
+            to="/contact#enquiry"
+            className="inline-flex items-center justify-center gap-2 px-6 py-3 font-medium bg-primary-foreground text-primary hover:bg-accent transition-colors"
+          >
+            Submit Sourcing Enquiry
+            <ArrowRight className="w-4 h-4" />
+          </Link>
+          <Link
+            to="/brokerage-sourcing"
+            className="inline-flex items-center justify-center gap-2 px-6 py-3 font-medium border border-primary-foreground/30 text-primary-foreground hover:border-primary-foreground transition-colors"
+          >
+            How We Work
+          </Link>
         </div>
-        <div className="container-wide relative z-10 py-20">
-          <div className="max-w-3xl">
-            <span className="tag-brass mb-6 inline-block">
-              Kenya · Ethiopia · Uganda
-            </span>
-            <h1 className="text-primary-foreground text-balance">
-              {company.tagline}
-            </h1>
-            <p className="mt-6 text-lg md:text-xl text-primary-foreground/80 max-w-2xl">
-              {company.description}
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 mt-10">
-              <Link
-                to="/contact#enquiry"
-                className="inline-flex items-center justify-center gap-2 px-6 py-3 font-medium bg-primary-foreground text-primary hover:bg-accent transition-colors"
-              >
-                Submit Sourcing Enquiry
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-              <Link
-                to="/brokerage-sourcing"
-                className="inline-flex items-center justify-center gap-2 px-6 py-3 font-medium border border-primary-foreground/30 text-primary-foreground hover:border-primary-foreground transition-colors"
-              >
-                How We Work
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
+      </PageHero>
 
       {/* Introduction */}
-      <section className="section bg-card">
+      <section className="section-lg bg-card">
         <div className="container-narrow">
-          <div className="prose-trade">
-            <h2>Independent Brokerage, Trusted Sourcing</h2>
-            <p className="text-lg">
-              Imwera Coffee is an independent green coffee brokerage operating
-              across East Africa's premier specialty origins. We connect
-              international buyers—roasters, importers, and traders—with
-              high-quality coffees sourced through our network of trusted
-              partners.
-            </p>
-            <p>
-              We don't produce coffee. We don't claim ownership of the coffees
-              we represent. Instead, we focus on what we do best: building
-              relationships, verifying quality, coordinating logistics, and
-              facilitating transparent transactions between buyers and our
-              partner producers and exporters.
-            </p>
-            <p className="text-sm text-muted-foreground italic mt-6">
-              {company.forwardStatement}
-            </p>
-          </div>
+          <AnimatedSection>
+            <div className="prose-trade">
+              <h2>Independent Brokerage, Trusted Sourcing</h2>
+              <p className="text-lg">
+                Imwera Coffee is an independent green coffee brokerage operating across East Africa's 
+                premier specialty origins. We connect international buyers—roasters, importers, and 
+                traders—with high-quality coffees sourced through our network of trusted partners.
+              </p>
+              <p>
+                We don't produce coffee. We don't claim ownership of the coffees we represent. 
+                Instead, we focus on what we do best: building relationships, verifying quality, 
+                coordinating logistics, and facilitating transparent transactions between buyers 
+                and our partner producers and exporters.
+              </p>
+              <p className="text-sm text-muted-foreground italic mt-6">
+                {company.forwardStatement}
+              </p>
+            </div>
+          </AnimatedSection>
         </div>
       </section>
+
+      {/* Image Divider */}
+      <ImageDivider image={coffeeSorting} alt="Green coffee beans being sorted" height="md" />
 
       {/* Services */}
-      <section className="section">
+      <section className="section-lg">
         <div className="container-wide">
-          <SectionHeader
-            tag="Services"
-            title="What We Do"
-            description="From initial enquiry to export coordination, we support every stage of the sourcing process."
-          />
+          <AnimatedSection>
+            <SectionHeader
+              tag="Services"
+              title="What We Do"
+              description="From initial enquiry to export coordination, we support every stage of the sourcing process."
+            />
+          </AnimatedSection>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {services.map((service) => (
-              <ServiceCard
-                key={service.id}
-                title={service.title}
-                description={service.description}
-                icon={service.icon}
-              />
+            {services.map((service, index) => (
+              <AnimatedSection key={service.id} delay={index * 0.1}>
+                <ServiceCard
+                  title={service.title}
+                  description={service.description}
+                  icon={service.icon}
+                />
+              </AnimatedSection>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Origins Preview */}
-      <section className="section bg-card">
+      {/* Origins Preview - Image Cards */}
+      <section className="section-lg bg-card">
         <div className="container-wide">
-          <SectionHeader
-            tag="Origins"
-            title="Coffees by Origin"
-            description="We source from three of East Africa's most distinguished specialty origins, each with distinct characteristics and trade dynamics."
-          />
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {origins.map((origin) => (
-              <OriginCard key={origin.id} origin={origin} />
-            ))}
-          </div>
-          <div className="text-center mt-10">
-            <Link
-              to="/origins"
-              className="inline-flex items-center gap-2 text-foreground hover:text-accent transition-colors font-medium"
-            >
-              Explore all origins <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
+          <AnimatedSection>
+            <SectionHeader
+              tag="Origins"
+              title="Coffees by Origin"
+              description="We source from three of East Africa's most distinguished specialty origins, each with distinct characteristics and trade dynamics."
+              centered
+            />
+          </AnimatedSection>
+          <AnimatedSection delay={0.2}>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
+              {origins.map((origin) => (
+                <OriginImageCard
+                  key={origin.id}
+                  origin={origin}
+                  image={originImages[origin.slug]}
+                />
+              ))}
+            </div>
+          </AnimatedSection>
+          <AnimatedSection delay={0.4}>
+            <div className="text-center mt-12">
+              <Link
+                to="/origins"
+                className="inline-flex items-center gap-2 text-foreground hover:text-accent transition-colors font-medium"
+              >
+                Explore all origins <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+          </AnimatedSection>
         </div>
       </section>
 
       {/* How We Work */}
-      <section className="section">
+      <section className="section-lg">
         <div className="container-wide">
-          <SectionHeader
-            tag="Principles"
-            title="How We Work"
-            description="Our approach is built on transparency, strong partnerships, and a commitment to quality at every step."
-          />
+          <AnimatedSection>
+            <SectionHeader
+              tag="Principles"
+              title="How We Work"
+              description="Our approach is built on transparency, strong partnerships, and a commitment to quality at every step."
+            />
+          </AnimatedSection>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {principles.map((principle, index) => (
-              <div key={index} className="border-l-2 border-accent pl-6">
-                <h3 className="font-serif text-xl mb-2">{principle.title}</h3>
-                <p className="text-muted-foreground">{principle.description}</p>
-              </div>
+              <AnimatedSection key={index} delay={index * 0.1} direction="left">
+                <div className="border-l-2 border-accent pl-6 py-2">
+                  <h3 className="font-serif text-xl mb-2">{principle.title}</h3>
+                  <p className="text-muted-foreground">{principle.description}</p>
+                </div>
+              </AnimatedSection>
             ))}
           </div>
         </div>
       </section>
 
       {/* Market Insights Preview */}
-      <section className="section bg-card">
+      <section className="section-lg bg-card">
         <div className="container-wide">
-          <SectionHeader
-            tag="Insights"
-            title="Market Insights"
-            description="Trade perspectives on East African coffee—harvest windows, logistics, and sourcing strategies."
-          />
+          <AnimatedSection>
+            <SectionHeader
+              tag="Insights"
+              title="Market Insights"
+              description="Trade perspectives on East African coffee—harvest windows, logistics, and sourcing strategies."
+            />
+          </AnimatedSection>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {insights.slice(0, 3).map((post) => (
-              <InsightCard key={post.id} post={post} />
+            {insights.slice(0, 3).map((post, index) => (
+              <AnimatedSection key={post.id} delay={index * 0.1}>
+                <InsightCard post={post} />
+              </AnimatedSection>
             ))}
           </div>
-          <div className="text-center mt-10">
-            <Link
-              to="/insights"
-              className="inline-flex items-center gap-2 text-foreground hover:text-accent transition-colors font-medium"
-            >
-              View all insights <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
+          <AnimatedSection delay={0.4}>
+            <div className="text-center mt-12">
+              <Link
+                to="/insights"
+                className="inline-flex items-center gap-2 text-foreground hover:text-accent transition-colors font-medium"
+              >
+                View all insights <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+          </AnimatedSection>
         </div>
       </section>
 

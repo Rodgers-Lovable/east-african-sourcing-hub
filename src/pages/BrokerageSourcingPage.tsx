@@ -1,12 +1,15 @@
-import { Link } from "react-router-dom";
-import { ArrowRight } from "lucide-react";
 import { Layout } from "@/components/Layout";
 import { SEOHead } from "@/components/SEOHead";
 import { SectionHeader } from "@/components/SectionHeader";
 import { FAQBlock } from "@/components/FAQBlock";
 import { CTABlock } from "@/components/CTABlock";
+import { AnimatedSection } from "@/components/AnimatedSection";
+import { PageHero } from "@/components/PageHero";
+import { ImageDivider } from "@/components/ImageDivider";
 import { services } from "@/data/services";
 import { brokerageFaqs } from "@/data/faqs";
+import heroBrokerage from "@/assets/hero-brokerage.jpg";
+import coffeeSorting from "@/assets/coffee-sorting.jpg";
 
 const BrokerageSourcingPage = () => {
   const process = [
@@ -51,172 +54,193 @@ const BrokerageSourcingPage = () => {
       />
 
       {/* Hero */}
-      <section className="section-lg bg-card">
-        <div className="container-narrow">
-          <span className="tag mb-6 inline-block">Brokerage & Sourcing</span>
-          <h1 className="text-balance">
-            How Green Coffee Brokerage Works
-          </h1>
-          <p className="mt-6 text-xl text-muted-foreground">
-            A step-by-step look at how we connect international buyers with 
-            quality coffees from East Africa.
-          </p>
-        </div>
-      </section>
+      <PageHero
+        image={heroBrokerage}
+        tag="Brokerage & Sourcing"
+        title="How Green Coffee Brokerage Works"
+        description="A step-by-step look at how we connect international buyers with quality coffees from East Africa."
+      />
 
       {/* What is Brokerage */}
-      <section className="section">
+      <section className="section-lg">
         <div className="container-narrow">
-          <SectionHeader title="What is Green Coffee Brokerage?" />
-          <div className="prose-trade">
-            <p>
-              Green coffee brokerage is the professional facilitation of coffee 
-              trade between producing origins and consuming markets. A broker 
-              connects buyers with suitable coffees, coordinates sampling and 
-              quality verification, supports contracting, and helps manage the 
-              logistics of international trade.
-            </p>
-            <p>
-              Unlike importers who take title to coffee and maintain inventory, 
-              brokers facilitate direct transactions between buyers and sellers. 
-              This model offers several advantages: access to a broader range of 
-              coffees, transparent pricing, direct relationship building, and 
-              flexibility in volume and timing.
-            </p>
-            <p>
-              At Imwera Coffee, we specialize in East African origins—Kenya, 
-              Ethiopia, and Uganda. Our deep knowledge of these markets, combined 
-              with strong partner relationships, allows us to source coffees that 
-              meet specific buyer requirements while maintaining transparency about 
-              origin and traceability.
-            </p>
-          </div>
+          <AnimatedSection>
+            <SectionHeader title="What is Green Coffee Brokerage?" />
+          </AnimatedSection>
+          <AnimatedSection delay={0.2}>
+            <div className="prose-trade">
+              <p>
+                Green coffee brokerage is the professional facilitation of coffee 
+                trade between producing origins and consuming markets. A broker 
+                connects buyers with suitable coffees, coordinates sampling and 
+                quality verification, supports contracting, and helps manage the 
+                logistics of international trade.
+              </p>
+              <p>
+                Unlike importers who take title to coffee and maintain inventory, 
+                brokers facilitate direct transactions between buyers and sellers. 
+                This model offers several advantages: access to a broader range of 
+                coffees, transparent pricing, direct relationship building, and 
+                flexibility in volume and timing.
+              </p>
+              <p>
+                At Imwera Coffee, we specialize in East African origins—Kenya, 
+                Ethiopia, and Uganda. Our deep knowledge of these markets, combined 
+                with strong partner relationships, allows us to source coffees that 
+                meet specific buyer requirements while maintaining transparency about 
+                origin and traceability.
+              </p>
+            </div>
+          </AnimatedSection>
         </div>
       </section>
 
+      {/* Image Divider */}
+      <ImageDivider image={coffeeSorting} alt="Coffee sample preparation" height="md" />
+
       {/* Services */}
-      <section className="section bg-card">
+      <section className="section-lg bg-card">
         <div className="container-wide">
-          <SectionHeader
-            title="How We Support Buyers"
-            description="From initial enquiry to successful delivery, we provide comprehensive support throughout the sourcing process."
-            centered
-          />
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
-            {services.map((service) => (
-              <div key={service.id} className="trade-card bg-background">
-                <h3 className="font-serif text-xl mb-3">{service.title}</h3>
-                <p className="text-muted-foreground text-sm">{service.description}</p>
-              </div>
+          <AnimatedSection>
+            <SectionHeader
+              title="How We Support Buyers"
+              description="From initial enquiry to successful delivery, we provide comprehensive support throughout the sourcing process."
+              centered
+            />
+          </AnimatedSection>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
+            {services.map((service, index) => (
+              <AnimatedSection key={service.id} delay={index * 0.1}>
+                <div className="trade-card bg-background h-full">
+                  <h3 className="font-serif text-xl mb-3">{service.title}</h3>
+                  <p className="text-muted-foreground text-sm">{service.description}</p>
+                </div>
+              </AnimatedSection>
             ))}
           </div>
         </div>
       </section>
 
       {/* Process Steps */}
-      <section className="section">
+      <section className="section-lg">
         <div className="container-wide">
-          <SectionHeader
-            title="The Sourcing Process"
-            description="A typical transaction follows these steps—though we adapt to each buyer's specific needs and timeline."
-          />
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
-            {process.map((item) => (
-              <div key={item.step} className="relative">
-                <span className="text-6xl font-serif text-muted/30 absolute -top-4 -left-2">
-                  {item.step}
-                </span>
-                <div className="pt-8">
-                  <h3 className="font-serif text-xl mb-3">{item.title}</h3>
-                  <p className="text-muted-foreground text-sm">{item.description}</p>
+          <AnimatedSection>
+            <SectionHeader
+              title="The Sourcing Process"
+              description="A typical transaction follows these steps—though we adapt to each buyer's specific needs and timeline."
+            />
+          </AnimatedSection>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
+            {process.map((item, index) => (
+              <AnimatedSection key={item.step} delay={index * 0.1}>
+                <div className="relative">
+                  <span className="text-6xl font-serif text-muted/30 absolute -top-4 -left-2">
+                    {item.step}
+                  </span>
+                  <div className="pt-8">
+                    <h3 className="font-serif text-xl mb-3">{item.title}</h3>
+                    <p className="text-muted-foreground text-sm">{item.description}</p>
+                  </div>
                 </div>
-              </div>
+              </AnimatedSection>
             ))}
           </div>
         </div>
       </section>
 
       {/* Partner Relationships */}
-      <section className="section bg-card">
+      <section className="section-lg bg-card">
         <div className="container-narrow">
-          <SectionHeader title="How We Work With Partners" />
-          <div className="prose-trade">
-            <p>
-              Our ability to source quality coffee depends entirely on the partners 
-              we work with. We're selective about these relationships, prioritizing 
-              partners who share our commitment to quality, reliability, and 
-              transparent communication.
-            </p>
-            <h3>What We Look For in Partners</h3>
-            <ul>
-              <li>
-                <strong>Quality consistency:</strong> Track record of producing or 
-                exporting coffee that meets specialty standards
-              </li>
-              <li>
-                <strong>Reliable communication:</strong> Responsive, honest, and 
-                proactive about sharing information
-              </li>
-              <li>
-                <strong>Traceability:</strong> Ability to document origin, 
-                processing, and chain of custody
-              </li>
-              <li>
-                <strong>Fair practices:</strong> Commitment to fair farmer payments 
-                and sustainable operations
-              </li>
-            </ul>
-            <h3>What Partners Can Expect From Us</h3>
-            <ul>
-              <li>Clear communication of buyer requirements and quality expectations</li>
-              <li>Timely and constructive cupping feedback</li>
-              <li>Reliable payment facilitation and contract adherence</li>
-              <li>Long-term relationship focus, not just transactional engagement</li>
-            </ul>
-          </div>
+          <AnimatedSection>
+            <SectionHeader title="How We Work With Partners" />
+          </AnimatedSection>
+          <AnimatedSection delay={0.2}>
+            <div className="prose-trade">
+              <p>
+                Our ability to source quality coffee depends entirely on the partners 
+                we work with. We're selective about these relationships, prioritizing 
+                partners who share our commitment to quality, reliability, and 
+                transparent communication.
+              </p>
+              <h3>What We Look For in Partners</h3>
+              <ul>
+                <li>
+                  <strong>Quality consistency:</strong> Track record of producing or 
+                  exporting coffee that meets specialty standards
+                </li>
+                <li>
+                  <strong>Reliable communication:</strong> Responsive, honest, and 
+                  proactive about sharing information
+                </li>
+                <li>
+                  <strong>Traceability:</strong> Ability to document origin, 
+                  processing, and chain of custody
+                </li>
+                <li>
+                  <strong>Fair practices:</strong> Commitment to fair farmer payments 
+                  and sustainable operations
+                </li>
+              </ul>
+              <h3>What Partners Can Expect From Us</h3>
+              <ul>
+                <li>Clear communication of buyer requirements and quality expectations</li>
+                <li>Timely and constructive cupping feedback</li>
+                <li>Reliable payment facilitation and contract adherence</li>
+                <li>Long-term relationship focus, not just transactional engagement</li>
+              </ul>
+            </div>
+          </AnimatedSection>
         </div>
       </section>
 
       {/* What We Don't Claim */}
-      <section className="section">
+      <section className="section-lg">
         <div className="container-narrow">
-          <SectionHeader
-            title="What We Don't Claim"
-            description="Transparency about our role means being clear about what we're not."
-          />
-          <div className="prose-trade">
-            <p>
-              We're not producers. The coffees we source are grown, processed, and 
-              prepared by our partner farms, cooperatives, washing stations, and 
-              exporters. We represent them honestly, without claiming their work 
-              as our own.
-            </p>
-            <p>
-              We're not (yet) licensed Kenyan coffee exporters. All Kenyan exports 
-              are facilitated through our licensed partner network. We're working 
-              toward direct export capability, but until that's in place, we're 
-              transparent about how exports actually work.
-            </p>
-            <p>
-              We don't claim ownership of partner coffees until a transaction is 
-              completed. When we present "available coffees" or "coffees we source," 
-              we mean coffees from our partner network that we can facilitate 
-              access to—not inventory we hold.
-            </p>
-          </div>
+          <AnimatedSection>
+            <SectionHeader
+              title="What We Don't Claim"
+              description="Transparency about our role means being clear about what we're not."
+            />
+          </AnimatedSection>
+          <AnimatedSection delay={0.2}>
+            <div className="prose-trade">
+              <p>
+                We're not producers. The coffees we source are grown, processed, and 
+                prepared by our partner farms, cooperatives, washing stations, and 
+                exporters. We represent them honestly, without claiming their work 
+                as our own.
+              </p>
+              <p>
+                We're not (yet) licensed Kenyan coffee exporters. All Kenyan exports 
+                are facilitated through our licensed partner network. We're working 
+                toward direct export capability, but until that's in place, we're 
+                transparent about how exports actually work.
+              </p>
+              <p>
+                We don't claim ownership of partner coffees until a transaction is 
+                completed. When we present "available coffees" or "coffees we source," 
+                we mean coffees from our partner network that we can facilitate 
+                access to—not inventory we hold.
+              </p>
+            </div>
+          </AnimatedSection>
         </div>
       </section>
 
       {/* FAQs */}
-      <section className="section bg-card">
+      <section className="section-lg bg-card">
         <div className="container-narrow">
-          <SectionHeader
-            title="Frequently Asked Questions"
-            description="Common questions from buyers about working with Imwera Coffee."
-          />
-          <div className="mt-8">
-            <FAQBlock faqs={brokerageFaqs} />
-          </div>
+          <AnimatedSection>
+            <SectionHeader
+              title="Frequently Asked Questions"
+              description="Common questions from buyers about working with Imwera Coffee."
+            />
+          </AnimatedSection>
+          <AnimatedSection delay={0.2}>
+            <div className="mt-8">
+              <FAQBlock faqs={brokerageFaqs} />
+            </div>
+          </AnimatedSection>
         </div>
       </section>
 
