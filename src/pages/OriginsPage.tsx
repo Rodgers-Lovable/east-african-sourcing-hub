@@ -1,11 +1,14 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import { ArrowRight } from "lucide-react";
 import { Layout } from "@/components/Layout";
 import { SEOHead } from "@/components/SEOHead";
 import { SectionHeader } from "@/components/SectionHeader";
 import { OriginImageCard } from "@/components/OriginImageCard";
 import { AnimatedSection } from "@/components/AnimatedSection";
 import { PageHero } from "@/components/PageHero";
-import { VisualBreak } from "@/components/VisualBreak";
+import { ParallaxQuote } from "@/components/ParallaxQuote";
+import { SourcingEnquiryModal } from "@/components/SourcingEnquiryModal";
 import { origins } from "@/data/origins";
 import heroOrigins from "@/assets/hero-origins.jpg";
 import originKenya from "@/assets/origin-kenya.jpg";
@@ -20,6 +23,8 @@ const originImages: Record<string, string> = {
 };
 
 const OriginsPage = () => {
+  const [enquiryModalOpen, setEnquiryModalOpen] = useState(false);
+
   return (
     <Layout>
       <SEOHead
@@ -53,12 +58,12 @@ const OriginsPage = () => {
         </div>
       </section>
 
-      {/* Visual Break */}
-      <VisualBreak
+      {/* Parallax Quote */}
+      <ParallaxQuote
         image={dryingBeds}
         alt="Coffee cherries drying on raised African beds"
-        caption="Traditional raised bed drying ensures even moisture reduction and clean cup profiles."
-        height="lg"
+        quote="East Africa produces less than 5% of the world's coffee, yet commands the highest prices at specialty auctions year after year."
+        attribution="International Coffee Organization"
       />
 
       {/* Comparison */}
@@ -124,34 +129,33 @@ const OriginsPage = () => {
       <section className="section-lg">
         <div className="container-narrow text-center">
           <AnimatedSection>
-            <h2>Ready to Explore?</h2>
+            <h2>Ready to Source?</h2>
             <p className="mt-4 text-muted-foreground max-w-xl mx-auto">
-              Dive deeper into individual origins for detailed information on regions, 
-              processing, profiles, and sourcing approach.
+              Submit a sourcing enquiry with your requirements, or dive deeper into individual origins for detailed information.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
+              <button
+                onClick={() => setEnquiryModalOpen(true)}
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 font-medium bg-accent text-accent-foreground hover:bg-[hsl(42,50%,63%)] hover:shadow-md transition-all"
+              >
+                Submit Sourcing Enquiry
+                <ArrowRight className="w-4 h-4" />
+              </button>
               <Link
                 to="/origins/kenya"
-                className="inline-flex items-center justify-center gap-2 px-6 py-3 font-medium bg-primary text-primary-foreground hover:bg-secondary transition-colors"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 font-medium border-2 border-accent text-accent bg-transparent hover:bg-accent/10 transition-all"
               >
-                Kenya
-              </Link>
-              <Link
-                to="/origins/ethiopia"
-                className="inline-flex items-center justify-center gap-2 px-6 py-3 font-medium border border-border text-foreground hover:border-accent hover:text-accent transition-colors"
-              >
-                Ethiopia
-              </Link>
-              <Link
-                to="/origins/uganda"
-                className="inline-flex items-center justify-center gap-2 px-6 py-3 font-medium border border-border text-foreground hover:border-accent hover:text-accent transition-colors"
-              >
-                Uganda
+                Explore Kenya
               </Link>
             </div>
           </AnimatedSection>
         </div>
       </section>
+
+      <SourcingEnquiryModal 
+        isOpen={enquiryModalOpen} 
+        onClose={() => setEnquiryModalOpen(false)} 
+      />
     </Layout>
   );
 };

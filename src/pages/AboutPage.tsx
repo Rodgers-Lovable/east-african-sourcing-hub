@@ -1,12 +1,11 @@
 import { Layout } from "@/components/Layout";
 import { SEOHead } from "@/components/SEOHead";
 import { SectionHeader } from "@/components/SectionHeader";
-import { CTABlock } from "@/components/CTABlock";
+import { EnquiryCTABlock } from "@/components/EnquiryCTABlock";
 import { AnimatedSection } from "@/components/AnimatedSection";
 import { PageHero } from "@/components/PageHero";
-import { ImageDivider } from "@/components/ImageDivider";
 import { ImageTextSection } from "@/components/ImageTextSection";
-import { VisualBreak } from "@/components/VisualBreak";
+import { ParallaxQuote } from "@/components/ParallaxQuote";
 import { company, principles } from "@/data/company";
 import heroAbout from "@/assets/hero-about.jpg";
 import coffeeSorting from "@/assets/coffee-sorting.jpg";
@@ -60,12 +59,12 @@ const AboutPage = () => {
         </div>
       </section>
 
-      {/* Visual Break */}
-      <VisualBreak
+      {/* Parallax Quote */}
+      <ParallaxQuote
         image={originEthiopia}
         alt="Ethiopian coffee landscape with mountains"
-        caption="Ethiopia's highlands produce some of the world's most distinctive coffees."
-        height="lg"
+        quote="Ethiopia alone accounts for over 1,200 native coffee varieties—more genetic diversity than the rest of the world combined."
+        attribution="Coffee Research Institute"
       />
 
       {/* Our Role */}
@@ -163,8 +162,13 @@ const AboutPage = () => {
         </div>
       </section>
 
-      {/* Image Divider */}
-      <ImageDivider image={coffeeBagsWarehouse} alt="Green coffee bags in warehouse" height="md" />
+      {/* Parallax Quote */}
+      <ParallaxQuote
+        image={coffeeBagsWarehouse}
+        alt="Green coffee bags in warehouse"
+        quote="A single coffee bag holds 60kg of green beans—enough to produce approximately 5,000 cups of brewed coffee."
+        attribution="Industry Standard"
+      />
 
       {/* Principles */}
       <section className="section-lg bg-card">
@@ -207,11 +211,9 @@ const AboutPage = () => {
       </section>
 
       {/* CTA */}
-      <CTABlock
-        variant="dark"
+      <EnquiryCTABlock
         title="Work With Us"
         description="Whether you're a buyer seeking quality East African coffee or a producer looking for international connections, we'd like to hear from you."
-        primaryLink="/contact#enquiry"
         primaryLabel="Sourcing Enquiry"
         secondaryLink="/contact"
         secondaryLabel="General Contact"

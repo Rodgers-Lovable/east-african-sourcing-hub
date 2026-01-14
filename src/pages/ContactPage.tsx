@@ -1,35 +1,29 @@
 import { useState } from "react";
-import { Mail, MessageCircle, MapPin, Linkedin } from "lucide-react";
+import { Mail, MessageCircle, MapPin, Linkedin, ArrowRight } from "lucide-react";
 import { Layout } from "@/components/Layout";
 import { SEOHead } from "@/components/SEOHead";
 import { SectionHeader } from "@/components/SectionHeader";
 import { AnimatedSection } from "@/components/AnimatedSection";
 import { PageHero } from "@/components/PageHero";
+import { SourcingEnquiryModal } from "@/components/SourcingEnquiryModal";
 import { company } from "@/data/company";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Checkbox } from "@/components/ui/checkbox";
 import heroContact from "@/assets/hero-contact.jpg";
 
 type FormStatus = "idle" | "submitting" | "success" | "error";
 
 const ContactPage = () => {
   const [generalStatus, setGeneralStatus] = useState<FormStatus>("idle");
-  const [sourcingStatus, setSourcingStatus] = useState<FormStatus>("idle");
   const [partnerStatus, setPartnerStatus] = useState<FormStatus>("idle");
+  const [enquiryModalOpen, setEnquiryModalOpen] = useState(false);
 
   const handleGeneralSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setGeneralStatus("submitting");
     setTimeout(() => setGeneralStatus("success"), 1000);
-  };
-
-  const handleSourcingSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setSourcingStatus("submitting");
-    setTimeout(() => setSourcingStatus("success"), 1000);
   };
 
   const handlePartnerSubmit = (e: React.FormEvent) => {
@@ -90,6 +84,25 @@ const ContactPage = () => {
         </div>
       </section>
 
+      {/* Sourcing Enquiry CTA */}
+      <section className="section-lg bg-muted">
+        <div className="container-narrow text-center">
+          <AnimatedSection>
+            <h2>Looking to Source Coffee?</h2>
+            <p className="mt-4 text-muted-foreground max-w-xl mx-auto">
+              Submit a detailed sourcing enquiry and tell us about your requirements—origin preferences, volume expectations, profile targets, and timing.
+            </p>
+            <button
+              onClick={() => setEnquiryModalOpen(true)}
+              className="mt-8 inline-flex items-center justify-center gap-2 px-6 py-3 font-medium bg-accent text-accent-foreground hover:bg-[hsl(42,50%,63%)] hover:shadow-md transition-all"
+            >
+              Submit Sourcing Enquiry
+              <ArrowRight className="w-4 h-4" />
+            </button>
+          </AnimatedSection>
+        </div>
+      </section>
+
       {/* General Contact Form */}
       <section className="section-lg bg-card">
         <div className="container-narrow">
@@ -98,7 +111,7 @@ const ContactPage = () => {
           </AnimatedSection>
           <AnimatedSection delay={0.2}>
             {generalStatus === "success" ? (
-              <div className="p-6 border border-success-green text-success-green text-center">
+              <div className="p-6 border border-success text-success text-center">
                 <p className="font-medium">Thank you for your message. We'll be in touch soon.</p>
               </div>
             ) : (
@@ -117,7 +130,7 @@ const ContactPage = () => {
                   </Select>
                 </div>
                 <div><Label htmlFor="gen-message">Message *</Label><Textarea id="gen-message" required rows={5} className="mt-2" /></div>
-                <button type="submit" disabled={generalStatus === "submitting"} className="px-6 py-3 bg-primary text-primary-foreground hover:bg-secondary transition-colors font-medium disabled:opacity-50">
+                <button type="submit" disabled={generalStatus === "submitting"} className="px-6 py-3 bg-accent text-accent-foreground hover:bg-[hsl(42,50%,63%)] hover:shadow-md transition-all font-medium disabled:opacity-50">
                   {generalStatus === "submitting" ? "Sending..." : "Send Message"}
                 </button>
               </form>
@@ -126,56 +139,8 @@ const ContactPage = () => {
         </div>
       </section>
 
-      {/* Sourcing Enquiry Form */}
-      <section id="enquiry" className="section-lg">
-        <div className="container-narrow">
-          <AnimatedSection>
-            <SectionHeader title="Coffee Sourcing Enquiry" description="Tell us about your sourcing requirements. The more detail, the better we can help." />
-          </AnimatedSection>
-          <AnimatedSection delay={0.2}>
-            {sourcingStatus === "success" ? (
-              <div className="p-6 border border-success-green text-success-green text-center">
-                <p className="font-medium">Thank you for your enquiry. We'll review your requirements and respond shortly.</p>
-              </div>
-            ) : (
-              <form onSubmit={handleSourcingSubmit} className="space-y-6 mt-8">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div><Label htmlFor="src-name">Full Name *</Label><Input id="src-name" required className="mt-2" /></div>
-                  <div><Label htmlFor="src-company">Company *</Label><Input id="src-company" required className="mt-2" /></div>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div><Label htmlFor="src-role">Role</Label><Input id="src-role" className="mt-2" /></div>
-                  <div><Label htmlFor="src-email">Email *</Label><Input id="src-email" type="email" required className="mt-2" /></div>
-                </div>
-                <div><Label htmlFor="src-country">Buyer Country *</Label><Input id="src-country" required className="mt-2" /></div>
-                <div><Label>Origins of Interest *</Label>
-                  <div className="flex flex-wrap gap-4 mt-2">
-                    {["Kenya", "Ethiopia", "Uganda"].map((o) => (
-                      <div key={o} className="flex items-center gap-2"><Checkbox id={`origin-${o}`} /><Label htmlFor={`origin-${o}`} className="font-normal">{o}</Label></div>
-                    ))}
-                  </div>
-                </div>
-                <div><Label>Expected Volume</Label>
-                  <Select><SelectTrigger className="mt-2"><SelectValue placeholder="Select volume" /></SelectTrigger>
-                    <SelectContent><SelectItem value="samples">Samples only</SelectItem><SelectItem value="1-5">1–5 bags</SelectItem><SelectItem value="10-50">10–50 bags</SelectItem><SelectItem value="container">Container-level</SelectItem><SelectItem value="unsure">Not sure yet</SelectItem></SelectContent>
-                  </Select>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div><Label htmlFor="src-shipping">Preferred Shipping Window</Label><Input id="src-shipping" placeholder="e.g., Q2 2026" className="mt-2" /></div>
-                  <div><Label htmlFor="src-processing">Processing Preference</Label><Input id="src-processing" placeholder="e.g., Washed, Natural" className="mt-2" /></div>
-                </div>
-                <div><Label htmlFor="src-notes">Requirements / Notes</Label><Textarea id="src-notes" rows={4} placeholder="Profile targets, specific regions, any other requirements..." className="mt-2" /></div>
-                <button type="submit" disabled={sourcingStatus === "submitting"} className="px-6 py-3 bg-primary text-primary-foreground hover:bg-secondary transition-colors font-medium disabled:opacity-50">
-                  {sourcingStatus === "submitting" ? "Submitting..." : "Submit Enquiry"}
-                </button>
-              </form>
-            )}
-          </AnimatedSection>
-        </div>
-      </section>
-
       {/* Partner Introduction Form */}
-      <section id="partner" className="section-lg bg-card">
+      <section id="partner" className="section-lg">
         <div className="container-narrow">
           <AnimatedSection>
             <SectionHeader title="Partner Introduction" description="For producers, exporters, and processors interested in working with us." />
@@ -183,7 +148,7 @@ const ContactPage = () => {
           </AnimatedSection>
           <AnimatedSection delay={0.2}>
             {partnerStatus === "success" ? (
-              <div className="p-6 border border-success-green text-success-green text-center">
+              <div className="p-6 border border-success text-success text-center">
                 <p className="font-medium">Thank you for your introduction. We'll review and follow up if there's a fit.</p>
               </div>
             ) : (
@@ -204,7 +169,7 @@ const ContactPage = () => {
                 </div>
                 <div><Label htmlFor="ptr-desc">Brief Description *</Label><Textarea id="ptr-desc" required rows={4} placeholder="Tell us about your organization, production, and what you're looking for..." className="mt-2" /></div>
                 <div><Label htmlFor="ptr-link">Website / Reference Link</Label><Input id="ptr-link" placeholder="https://..." className="mt-2" /></div>
-                <button type="submit" disabled={partnerStatus === "submitting"} className="px-6 py-3 bg-primary text-primary-foreground hover:bg-secondary transition-colors font-medium disabled:opacity-50">
+                <button type="submit" disabled={partnerStatus === "submitting"} className="px-6 py-3 bg-accent text-accent-foreground hover:bg-[hsl(42,50%,63%)] hover:shadow-md transition-all font-medium disabled:opacity-50">
                   {partnerStatus === "submitting" ? "Submitting..." : "Submit Introduction"}
                 </button>
               </form>
@@ -212,6 +177,11 @@ const ContactPage = () => {
           </AnimatedSection>
         </div>
       </section>
+
+      <SourcingEnquiryModal 
+        isOpen={enquiryModalOpen} 
+        onClose={() => setEnquiryModalOpen(false)} 
+      />
     </Layout>
   );
 };
