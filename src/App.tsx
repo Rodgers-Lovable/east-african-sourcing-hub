@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import { ThemeProvider } from "./components/ThemeProvider";
+import { BackToTop } from "./components/BackToTop";
 import Index from "./pages/Index";
 import AboutPage from "./pages/AboutPage";
 import BrokerageSourcingPage from "./pages/BrokerageSourcingPage";
@@ -27,6 +28,7 @@ const App = () => (
           <Sonner />
           <BrowserRouter>
             <ScrollToTop />
+            <BackToTop />
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/about" element={<AboutPage />} />
