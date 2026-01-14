@@ -21,7 +21,7 @@ export const PageHero = ({
   size = "default",
   showScrollIndicator = false,
 }: PageHeroProps) => {
-  const heightClass = size === "large" ? "min-h-[100vh]" : "min-h-[70vh]";
+  const heightClass = size === "large" ? "min-h-[95vh]" : "min-h-[70vh]";
 
   return (
     <section className={`relative ${heightClass} flex items-end overflow-hidden`}>
