@@ -5,11 +5,13 @@ import { SectionHeader } from "@/components/SectionHeader";
 import { OriginImageCard } from "@/components/OriginImageCard";
 import { AnimatedSection } from "@/components/AnimatedSection";
 import { PageHero } from "@/components/PageHero";
+import { VisualBreak } from "@/components/VisualBreak";
 import { origins } from "@/data/origins";
 import heroOrigins from "@/assets/hero-origins.jpg";
 import originKenya from "@/assets/origin-kenya.jpg";
 import originEthiopia from "@/assets/origin-ethiopia.jpg";
 import originUganda from "@/assets/origin-uganda.jpg";
+import dryingBeds from "@/assets/drying-beds.jpg";
 
 const originImages: Record<string, string> = {
   kenya: originKenya,
@@ -50,6 +52,14 @@ const OriginsPage = () => {
           </AnimatedSection>
         </div>
       </section>
+
+      {/* Visual Break */}
+      <VisualBreak
+        image={dryingBeds}
+        alt="Coffee cherries drying on raised African beds"
+        caption="Traditional raised bed drying ensures even moisture reduction and clean cup profiles."
+        height="lg"
+      />
 
       {/* Comparison */}
       <section className="section-lg bg-card">

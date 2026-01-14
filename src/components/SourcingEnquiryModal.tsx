@@ -1,0 +1,245 @@
+import { useState, useEffect } from "react";
+import { X } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
+
+interface SourcingEnquiryModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+type FormStatus = "idle" | "submitting" | "success";
+
+export const SourcingEnquiryModal = ({ isOpen, onClose }: SourcingEnquiryModalProps) => {
+  const [status, setStatus] = useState<FormStatus>("idle");
+
+  // Lock body scroll when modal is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isOpen]);
+
+  // Handle Escape key
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    if (isOpen) {
+      document.addEventListener("keydown", handleEscape);
+    }
+    return () => document.removeEventListener("keydown", handleEscape);
+  }, [isOpen, onClose]);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setStatus("submitting");
+    setTimeout(() => {
+      setStatus("success");
+    }, 1200);
+  };
+
+  const handleClose = () => {
+    setStatus("idle");
+    onClose();
+  };
+
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.2 }}
+          className="fixed inset-0 z-50 flex items-center justify-center bg-background/95 backdrop-blur-sm"
+        >
+          <motion.div
+            initial={{ opacity: 0, scale: 0.98 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.98 }}
+            transition={{ duration: 0.2 }}
+            className="relative w-full h-full flex flex-col bg-background overflow-hidden"
+          >
+            {/* Header */}
+            <div className="flex items-center justify-between px-6 py-4 border-b border-border shrink-0">
+              <div>
+                <h2 className="font-serif text-xl md:text-2xl">Coffee Sourcing Enquiry</h2>
+                <p className="text-sm text-muted-foreground mt-1 hidden sm:block">
+                  Tell us about your sourcing requirements
+                </p>
+              </div>
+              <div className="flex items-center gap-4">
+                <span className="text-xs text-muted-foreground hidden md:block">Esc to close</span>
+                <button
+                  onClick={handleClose}
+                  className="p-2 hover:bg-muted rounded transition-colors"
+                  aria-label="Close modal"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+            </div>
+
+            {/* Content */}
+            <div className="flex-1 overflow-hidden flex flex-col">
+              {status === "success" ? (
+                <div className="flex-1 flex items-center justify-center p-6">
+                  <div className="max-w-md text-center">
+                    <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-accent/10 flex items-center justify-center">
+                      <svg className="w-8 h-8 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                    <h3 className="font-serif text-2xl mb-4">Enquiry Submitted</h3>
+                    <p className="text-muted-foreground mb-6">
+                      Thank you for your sourcing enquiry. We'll review your requirements and respond within 1-2 business days.
+                    </p>
+                    <div className="p-4 bg-muted/50 rounded text-left text-sm">
+                      <p className="font-medium mb-2">What happens next:</p>
+                      <ul className="space-y-1 text-muted-foreground">
+                        <li>• We'll review your requirements</li>
+                        <li>• Match with available partner coffees</li>
+                        <li>• Respond with suitable options and next steps</li>
+                      </ul>
+                    </div>
+                    <button
+                      onClick={handleClose}
+                      className="mt-8 px-6 py-3 bg-primary text-primary-foreground hover:bg-secondary transition-colors font-medium"
+                    >
+                      Close
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <form onSubmit={handleSubmit} className="flex-1 flex flex-col overflow-hidden">
+                  <div className="flex-1 overflow-y-auto px-6 py-6">
+                    <div className="max-w-5xl mx-auto">
+                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-12 gap-y-8">
+                        {/* Left Column: Your Details */}
+                        <div className="space-y-6">
+                          <div className="border-b border-border pb-2 mb-4">
+                            <h3 className="font-medium text-sm uppercase tracking-wide text-muted-foreground">Your Details</h3>
+                          </div>
+                          <div className="grid grid-cols-2 gap-4">
+                            <div>
+                              <Label htmlFor="name" className="text-sm">Full Name *</Label>
+                              <Input id="name" required className="mt-1.5" />
+                            </div>
+                            <div>
+                              <Label htmlFor="company" className="text-sm">Company *</Label>
+                              <Input id="company" required className="mt-1.5" />
+                            </div>
+                          </div>
+                          <div className="grid grid-cols-2 gap-4">
+                            <div>
+                              <Label htmlFor="role" className="text-sm">Role</Label>
+                              <Input id="role" className="mt-1.5" />
+                            </div>
+                            <div>
+                              <Label htmlFor="email" className="text-sm">Email *</Label>
+                              <Input id="email" type="email" required className="mt-1.5" />
+                            </div>
+                          </div>
+                          <div>
+                            <Label htmlFor="country" className="text-sm">Buyer Country *</Label>
+                            <Input id="country" required className="mt-1.5" />
+                          </div>
+                        </div>
+
+                        {/* Right Column: Sourcing Needs */}
+                        <div className="space-y-6">
+                          <div className="border-b border-border pb-2 mb-4">
+                            <h3 className="font-medium text-sm uppercase tracking-wide text-muted-foreground">Sourcing Needs</h3>
+                          </div>
+                          <div>
+                            <Label className="text-sm">Origins of Interest *</Label>
+                            <div className="flex flex-wrap gap-4 mt-2">
+                              {["Kenya", "Ethiopia", "Uganda"].map((origin) => (
+                                <div key={origin} className="flex items-center gap-2">
+                                  <Checkbox id={`origin-${origin}`} />
+                                  <Label htmlFor={`origin-${origin}`} className="font-normal text-sm">{origin}</Label>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                          <div className="grid grid-cols-2 gap-4">
+                            <div>
+                              <Label className="text-sm">Expected Volume</Label>
+                              <Select>
+                                <SelectTrigger className="mt-1.5">
+                                  <SelectValue placeholder="Select volume" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  <SelectItem value="samples">Samples only</SelectItem>
+                                  <SelectItem value="1-5">1–5 bags</SelectItem>
+                                  <SelectItem value="10-50">10–50 bags</SelectItem>
+                                  <SelectItem value="container">Container-level</SelectItem>
+                                  <SelectItem value="unsure">Not sure yet</SelectItem>
+                                </SelectContent>
+                              </Select>
+                            </div>
+                            <div>
+                              <Label htmlFor="shipping" className="text-sm">Shipping Window</Label>
+                              <Input id="shipping" placeholder="e.g., Q2 2026" className="mt-1.5" />
+                            </div>
+                          </div>
+                          <div>
+                            <Label htmlFor="processing" className="text-sm">Processing Preference</Label>
+                            <Input id="processing" placeholder="e.g., Washed, Natural" className="mt-1.5" />
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Full Width: Notes */}
+                      <div className="mt-8 pt-6 border-t border-border">
+                        <div className="border-b border-border pb-2 mb-4">
+                          <h3 className="font-medium text-sm uppercase tracking-wide text-muted-foreground">Additional Notes</h3>
+                        </div>
+                        <Textarea
+                          id="notes"
+                          rows={3}
+                          placeholder="Profile targets, specific regions, certifications, or any other requirements..."
+                          className="resize-none"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Footer Actions */}
+                  <div className="shrink-0 px-6 py-4 border-t border-border bg-muted/30">
+                    <div className="max-w-5xl mx-auto flex items-center justify-end gap-4">
+                      <button
+                        type="button"
+                        onClick={handleClose}
+                        className="px-6 py-2.5 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+                      >
+                        Close
+                      </button>
+                      <button
+                        type="submit"
+                        disabled={status === "submitting"}
+                        className="px-6 py-2.5 bg-primary text-primary-foreground hover:bg-secondary transition-colors font-medium text-sm disabled:opacity-50"
+                      >
+                        {status === "submitting" ? "Submitting..." : "Submit Enquiry"}
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              )}
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+};
