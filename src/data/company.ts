@@ -1,0 +1,138 @@
+// Centralized company information and content
+// All pages import from this single source
+
+export const company = {
+  name: "Imwera Coffee",
+  tagline: "Green Coffee Brokerage & Sourcing in East Africa",
+  description: "An independent green coffee brokerage and sourcing company connecting international buyers with high-quality coffees from trusted partners across Kenya, Ethiopia, and Uganda.",
+  
+  // Core positioning
+  role: "brokerage",
+  notProducer: true,
+  notExporter: true, // Kenya specifically, until licensed
+  
+  // Forward-looking statement
+  forwardStatement: "Imwera Coffee is in the process of expanding its operations and, in time, intends to export Kenyan coffee directly while continuing to represent trusted partners across the region.",
+  
+  // Origins served
+  origins: ["Kenya", "Ethiopia", "Uganda"],
+  
+  // Contact information
+  contact: {
+    email: "trade@imweracoffee.com",
+    whatsapp: "+254700000000",
+    location: "Nairobi, Kenya",
+    linkedin: "https://linkedin.com/company/imwera-coffee",
+  },
+  
+  // Social links
+  social: {
+    linkedin: "https://linkedin.com/company/imwera-coffee",
+  },
+};
+
+export const positioning = {
+  // Approved language
+  approved: [
+    "Available coffees",
+    "Coffees we source",
+    "Partner coffees",
+    "Sourced through trusted partners",
+    "Curated selection",
+    "Partner-based sourcing",
+  ],
+  
+  // Language to avoid
+  avoid: [
+    "Our farm",
+    "We produce",
+    "We export", // Until licensed for Kenya
+    "Our coffee",
+    "Grown by us",
+  ],
+  
+  // Key differentiators
+  differentiators: [
+    "Independent brokerage focused on quality",
+    "Deep relationships with trusted partners",
+    "Transparent sourcing communication",
+    "Trade-focused, not retail",
+    "Regional expertise across East Africa",
+  ],
+};
+
+export const services = [
+  {
+    id: "brokerage",
+    title: "Green Coffee Brokerage",
+    description: "We connect international buyers with quality-verified coffees from our network of trusted partners across Kenya, Ethiopia, and Uganda.",
+    icon: "Handshake",
+  },
+  {
+    id: "sourcing",
+    title: "Custom Sourcing",
+    description: "Tell us your requirements—origin, profile, volume, timing—and we'll identify suitable coffees from our partner network.",
+    icon: "Search",
+  },
+  {
+    id: "matchmaking",
+    title: "Buyer-Partner Matching",
+    description: "We facilitate introductions between buyers and suitable producing partners based on quality expectations and relationship fit.",
+    icon: "Users",
+  },
+  {
+    id: "sampling",
+    title: "Sampling Coordination",
+    description: "We coordinate sample requests and shipments between partners and buyers, ensuring timely delivery and proper documentation.",
+    icon: "Package",
+  },
+  {
+    id: "quality",
+    title: "Quality Communication",
+    description: "We relay cupping feedback and quality requirements between buyers and partners, supporting continuous improvement.",
+    icon: "MessageSquare",
+  },
+  {
+    id: "contracting",
+    title: "Contracting Support",
+    description: "We support the contracting and export process through our licensed partner network, ensuring smooth transactions.",
+    icon: "FileText",
+  },
+];
+
+export const principles = [
+  {
+    title: "Transparency First",
+    description: "We're clear about our role. We don't claim to produce or own the coffees we represent. Every relationship is documented honestly.",
+  },
+  {
+    title: "Partner-Based Sourcing",
+    description: "Our quality comes from the partners we work with. We carefully select and maintain relationships with reliable producers and exporters.",
+  },
+  {
+    title: "Long-Term Relationships",
+    description: "We prioritize sustainable partnerships over one-time transactions. Repeat business benefits everyone in the chain.",
+  },
+  {
+    title: "Trade-Focused Communication",
+    description: "We speak the language of trade. Profiles, logistics, timelines, and contracts—communicated clearly and professionally.",
+  },
+];
+
+export const seo = {
+  siteName: "Imwera Coffee",
+  defaultTitle: "Imwera Coffee | Green Coffee Brokerage & Sourcing in East Africa",
+  defaultDescription: "Independent green coffee brokerage connecting international buyers with quality coffees from Kenya, Ethiopia, and Uganda. Partner-based sourcing, sampling coordination, and trade support.",
+  keywords: [
+    "green coffee brokerage",
+    "coffee sourcing East Africa",
+    "coffee broker Kenya",
+    "Kenyan specialty coffee",
+    "Ethiopian green coffee",
+    "Uganda coffee sourcing",
+    "coffee trading",
+    "specialty coffee wholesale",
+  ],
+  ogImage: "/og-image.jpg",
+  twitterHandle: "@imweracoffee",
+};
