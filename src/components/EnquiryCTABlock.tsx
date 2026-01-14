@@ -31,7 +31,7 @@ export const EnquiryCTABlock = ({
           <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
             <button
               onClick={() => setModalOpen(true)}
-              className="inline-flex items-center justify-center gap-2 px-6 py-3 font-medium bg-accent text-accent-foreground hover:bg-[hsl(42,50%,63%)] hover:shadow-md transition-all"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3 font-medium bg-accent text-accent-foreground focus:outline-none hover:bg-[hsl(42,50%,63%)] hover:shadow-md transition-all"
             >
               {primaryLabel}
               <ArrowRight className="w-4 h-4" />

@@ -47,7 +47,7 @@ const Index = () => {
         <div className="flex flex-col sm:flex-row gap-4">
           <button
             onClick={() => setEnquiryModalOpen(true)}
-            className="inline-flex items-center justify-center gap-2 px-6 py-3 font-medium bg-accent text-accent-foreground hover:bg-[hsl(42,50%,63%)] hover:shadow-md transition-all"
+            className="inline-flex items-center justify-center gap-2 px-6 py-3 font-medium bg-accent text-accent-foreground hover:bg-[hsl(42,50%,63%)] hover:shadow-md transition-all focus:outline-none"
           >
             Submit Sourcing Enquiry
             <ArrowRight className="w-4 h-4" />
