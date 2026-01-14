@@ -42,14 +42,14 @@ const Index = () => {
         <div className="flex flex-col sm:flex-row gap-4">
           <Link
             to="/contact#enquiry"
-            className="inline-flex items-center justify-center gap-2 px-6 py-3 font-medium bg-primary-foreground text-primary hover:bg-accent transition-colors"
+            className="inline-flex items-center justify-center gap-2 px-6 py-3 font-medium bg-accent text-accent-foreground hover:bg-[hsl(42,50%,63%)] hover:shadow-md transition-all"
           >
             Submit Sourcing Enquiry
             <ArrowRight className="w-4 h-4" />
           </Link>
           <Link
             to="/brokerage-sourcing"
-            className="inline-flex items-center justify-center gap-2 px-6 py-3 font-medium border border-primary-foreground/30 text-primary-foreground hover:border-primary-foreground transition-colors"
+            className="inline-flex items-center justify-center gap-2 px-6 py-3 font-medium border-2 border-white/30 text-white hover:border-accent hover:text-accent transition-colors"
           >
             How We Work
           </Link>
@@ -134,7 +134,7 @@ const Index = () => {
             <div className="text-center mt-12">
               <Link
                 to="/origins"
-                className="inline-flex items-center gap-2 text-foreground hover:text-accent transition-colors font-medium"
+                className="inline-flex items-center gap-2 text-accent hover:text-[hsl(42,50%,63%)] transition-colors font-medium"
               >
                 Explore all origins <ArrowRight className="w-4 h-4" />
               </Link>
@@ -187,7 +187,7 @@ const Index = () => {
             <div className="text-center mt-12">
               <Link
                 to="/insights"
-                className="inline-flex items-center gap-2 text-foreground hover:text-accent transition-colors font-medium"
+                className="inline-flex items-center gap-2 text-accent hover:text-[hsl(42,50%,63%)] transition-colors font-medium"
               >
                 View all insights <ArrowRight className="w-4 h-4" />
               </Link>

@@ -22,22 +22,22 @@ const footerNavigation = {
 
 export const Footer = () => {
   return (
-    <footer className="bg-primary text-primary-foreground">
+    <footer className="bg-card border-t border-border">
       <div className="container-wide section">
         {/* Main Footer */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
           {/* Brand Column */}
           <div className="lg:col-span-1">
-            <Link to="/" className="font-serif text-2xl font-medium">
+            <Link to="/" className="font-serif text-2xl font-medium text-foreground">
               {company.name}
             </Link>
-            <p className="mt-4 text-primary-foreground/70 text-sm leading-relaxed">
+            <p className="mt-4 text-muted-foreground text-sm leading-relaxed">
               Independent green coffee brokerage and sourcing across Kenya, Ethiopia, and Uganda.
             </p>
             <div className="flex gap-4 mt-6">
               <a
                 href={`mailto:${company.contact.email}`}
-                className="text-primary-foreground/70 hover:text-accent transition-colors"
+                className="text-muted-foreground hover:text-accent transition-colors"
                 aria-label="Email"
               >
                 <Mail className="w-5 h-5" />
@@ -46,7 +46,7 @@ export const Footer = () => {
                 href={`https://wa.me/${company.contact.whatsapp.replace(/[^0-9]/g, "")}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-primary-foreground/70 hover:text-accent transition-colors"
+                className="text-muted-foreground hover:text-accent transition-colors"
                 aria-label="WhatsApp"
               >
                 <MessageCircle className="w-5 h-5" />
@@ -55,7 +55,7 @@ export const Footer = () => {
                 href={company.social.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-primary-foreground/70 hover:text-accent transition-colors"
+                className="text-muted-foreground hover:text-accent transition-colors"
                 aria-label="LinkedIn"
               >
                 <Linkedin className="w-5 h-5" />
@@ -65,13 +65,13 @@ export const Footer = () => {
 
           {/* Navigation Columns */}
           <div>
-            <h4 className="font-serif text-lg mb-4">Company</h4>
+            <h4 className="font-serif text-lg mb-4 text-foreground">Company</h4>
             <ul className="space-y-3">
               {footerNavigation.company.map((item) => (
                 <li key={item.name}>
                   <Link
                     to={item.href}
-                    className="text-sm text-primary-foreground/70 hover:text-accent transition-colors"
+                    className="text-sm text-muted-foreground hover:text-accent transition-colors"
                   >
                     {item.name}
                   </Link>
@@ -81,13 +81,13 @@ export const Footer = () => {
           </div>
 
           <div>
-            <h4 className="font-serif text-lg mb-4">Origins</h4>
+            <h4 className="font-serif text-lg mb-4 text-foreground">Origins</h4>
             <ul className="space-y-3">
               {footerNavigation.origins.map((item) => (
                 <li key={item.name}>
                   <Link
                     to={item.href}
-                    className="text-sm text-primary-foreground/70 hover:text-accent transition-colors"
+                    className="text-sm text-muted-foreground hover:text-accent transition-colors"
                   >
                     {item.name}
                   </Link>
@@ -97,13 +97,13 @@ export const Footer = () => {
           </div>
 
           <div>
-            <h4 className="font-serif text-lg mb-4">Resources</h4>
+            <h4 className="font-serif text-lg mb-4 text-foreground">Resources</h4>
             <ul className="space-y-3">
               {footerNavigation.resources.map((item) => (
                 <li key={item.name}>
                   <Link
                     to={item.href}
-                    className="text-sm text-primary-foreground/70 hover:text-accent transition-colors"
+                    className="text-sm text-muted-foreground hover:text-accent transition-colors"
                   >
                     {item.name}
                   </Link>
@@ -114,12 +114,12 @@ export const Footer = () => {
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-8 border-t border-primary-foreground/10">
+        <div className="pt-8 border-t border-border">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-xs text-primary-foreground/50">
+            <p className="text-xs text-muted-foreground">
               © {new Date().getFullYear()} {company.name}. All rights reserved.
             </p>
-            <p className="text-xs text-primary-foreground/50">
+            <p className="text-xs text-muted-foreground">
               {company.contact.location}
             </p>
           </div>

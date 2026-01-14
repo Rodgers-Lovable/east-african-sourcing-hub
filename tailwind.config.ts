@@ -60,6 +60,7 @@ export default {
         accent: {
           DEFAULT: "hsl(var(--accent))",
           foreground: "hsl(var(--accent-foreground))",
+          hover: "hsl(42 50% 63%)",
         },
         popover: {
           DEFAULT: "hsl(var(--popover))",
@@ -69,6 +70,10 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        // Dark theme specific surface colors
+        "slate-charcoal": "hsl(210 10% 16%)",
+        "elevated-slate": "hsl(210 9% 21%)",
+        "soft-slate-line": "hsl(210 8% 28%)",
       },
       fontFamily: {
         serif: ["Playfair Display", "Georgia", "serif"],
