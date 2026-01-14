@@ -27,7 +27,7 @@ export const Header = () => {
   // Handle scroll to toggle header background
   useEffect(() => {
     const handleScroll = () => {
-      const scrollThreshold = 80; // Scroll threshold in pixels
+      const scrollThreshold = 200; // Scroll threshold in pixels
       setIsScrolled(window.scrollY > scrollThreshold);
     };
     
