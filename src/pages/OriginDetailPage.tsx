@@ -4,10 +4,14 @@ import { Layout } from "@/components/Layout";
 import { SEOHead } from "@/components/SEOHead";
 import { SectionHeader } from "@/components/SectionHeader";
 import { CTABlock } from "@/components/CTABlock";
+import { AnimatedSection } from "@/components/AnimatedSection";
+import { PageHero } from "@/components/PageHero";
+import { ImageDivider } from "@/components/ImageDivider";
 import { getOriginBySlug, origins } from "@/data/origins";
 import originKenya from "@/assets/origin-kenya.jpg";
 import originEthiopia from "@/assets/origin-ethiopia.jpg";
 import originUganda from "@/assets/origin-uganda.jpg";
+import coffeeSorting from "@/assets/coffee-sorting.jpg";
 
 const originImages: Record<string, string> = {
   kenya: originKenya,
@@ -34,61 +38,67 @@ const OriginDetailPage = () => {
       />
 
       {/* Hero */}
-      <section className="relative min-h-[50vh] flex items-end">
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: `url(${originImages[origin.slug]})` }}
-        >
-          <div className="absolute inset-0 bg-gradient-to-t from-primary via-primary/50 to-transparent" />
-        </div>
-        <div className="container-wide relative z-10 py-16">
-          <span className="tag-brass mb-4 inline-block">{origin.name}</span>
-          <h1 className="text-primary-foreground max-w-3xl">{origin.tagline}</h1>
-        </div>
-      </section>
+      <PageHero
+        image={originImages[origin.slug]}
+        tag={origin.name}
+        title={origin.tagline}
+      />
 
       {/* Overview */}
-      <section className="section">
+      <section className="section-lg">
         <div className="container-narrow">
-          <div className="prose-trade">
-            <p className="text-lg">{origin.overview}</p>
-          </div>
+          <AnimatedSection>
+            <div className="prose-trade">
+              <p className="text-lg">{origin.overview}</p>
+            </div>
+          </AnimatedSection>
         </div>
       </section>
 
       {/* Regions */}
-      <section className="section bg-card">
+      <section className="section-lg bg-card">
         <div className="container-wide">
-          <SectionHeader
-            title="Key Regions"
-            description={`Major coffee-producing regions across ${origin.name}.`}
-          />
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-8">
+          <AnimatedSection>
+            <SectionHeader
+              title="Key Regions"
+              description={`Major coffee-producing regions across ${origin.name}.`}
+            />
+          </AnimatedSection>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-12">
             {origin.regions.map((region, index) => {
               const [name, desc] = region.split("—");
               return (
-                <div key={index} className="trade-card bg-background">
-                  <h3 className="font-serif text-lg mb-2">{name.trim()}</h3>
-                  {desc && <p className="text-sm text-muted-foreground">{desc.trim()}</p>}
-                </div>
+                <AnimatedSection key={index} delay={index * 0.1}>
+                  <div className="trade-card bg-background h-full">
+                    <h3 className="font-serif text-lg mb-2">{name.trim()}</h3>
+                    {desc && <p className="text-sm text-muted-foreground">{desc.trim()}</p>}
+                  </div>
+                </AnimatedSection>
               );
             })}
           </div>
         </div>
       </section>
 
+      {/* Image Divider */}
+      <ImageDivider image={coffeeSorting} alt="Coffee processing" height="md" />
+
       {/* Processing */}
-      <section className="section">
+      <section className="section-lg">
         <div className="container-narrow">
-          <SectionHeader title="Processing Methods" />
-          <div className="space-y-4 mt-8">
+          <AnimatedSection>
+            <SectionHeader title="Processing Methods" />
+          </AnimatedSection>
+          <div className="space-y-4 mt-12">
             {origin.processingMethods.map((method, index) => {
               const [name, desc] = method.split("—");
               return (
-                <div key={index} className="border-l-2 border-accent pl-6 py-2">
-                  <h3 className="font-serif text-lg">{name.trim()}</h3>
-                  {desc && <p className="text-muted-foreground mt-1">{desc.trim()}</p>}
-                </div>
+                <AnimatedSection key={index} delay={index * 0.1} direction="left">
+                  <div className="border-l-2 border-accent pl-6 py-2">
+                    <h3 className="font-serif text-lg">{name.trim()}</h3>
+                    {desc && <p className="text-muted-foreground mt-1">{desc.trim()}</p>}
+                  </div>
+                </AnimatedSection>
               );
             })}
           </div>
@@ -96,64 +106,76 @@ const OriginDetailPage = () => {
       </section>
 
       {/* Harvest & Availability */}
-      <section className="section bg-card">
+      <section className="section-lg bg-card">
         <div className="container-narrow">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div>
+            <AnimatedSection direction="left">
               <h3 className="font-serif text-xl mb-4">Harvest Period</h3>
               <p className="text-muted-foreground">{origin.harvestPeriod}</p>
-            </div>
-            <div>
+            </AnimatedSection>
+            <AnimatedSection direction="right" delay={0.1}>
               <h3 className="font-serif text-xl mb-4">Availability Window</h3>
               <p className="text-muted-foreground">{origin.availabilityWindow}</p>
-            </div>
+            </AnimatedSection>
           </div>
         </div>
       </section>
 
       {/* Profile Range */}
-      <section className="section">
+      <section className="section-lg">
         <div className="container-narrow">
-          <SectionHeader
-            title="Typical Profile Range"
-            description="General flavor characteristics you can expect from this origin."
-          />
-          <div className="flex flex-wrap gap-3 mt-8">
-            {origin.profileRange.map((profile, index) => (
-              <span key={index} className="tag">
-                {profile}
-              </span>
-            ))}
-          </div>
+          <AnimatedSection>
+            <SectionHeader
+              title="Typical Profile Range"
+              description="General flavor characteristics you can expect from this origin."
+            />
+          </AnimatedSection>
+          <AnimatedSection delay={0.2}>
+            <div className="flex flex-wrap gap-3 mt-8">
+              {origin.profileRange.map((profile, index) => (
+                <span key={index} className="tag">
+                  {profile}
+                </span>
+              ))}
+            </div>
+          </AnimatedSection>
         </div>
       </section>
 
       {/* Sourcing Approach */}
-      <section className="section bg-card">
+      <section className="section-lg bg-card">
         <div className="container-narrow">
-          <SectionHeader title={`How We Source ${origin.name} Coffees`} />
-          <div className="prose-trade mt-8">
-            <p>{origin.sourcingApproach}</p>
-          </div>
+          <AnimatedSection>
+            <SectionHeader title={`How We Source ${origin.name} Coffees`} />
+          </AnimatedSection>
+          <AnimatedSection delay={0.2}>
+            <div className="prose-trade mt-8">
+              <p>{origin.sourcingApproach}</p>
+            </div>
+          </AnimatedSection>
         </div>
       </section>
 
       {/* Buyer Notes */}
-      <section className="section">
+      <section className="section-lg">
         <div className="container-narrow">
-          <SectionHeader
-            title="For Buyers"
-            description="Practical information for sourcing from this origin."
-          />
-          <div className="space-y-4 mt-8">
+          <AnimatedSection>
+            <SectionHeader
+              title="For Buyers"
+              description="Practical information for sourcing from this origin."
+            />
+          </AnimatedSection>
+          <div className="space-y-4 mt-12">
             {origin.buyerNotes.map((note, index) => {
               const [label, ...rest] = note.split(":");
               const content = rest.join(":").trim();
               return (
-                <div key={index} className="flex gap-4">
-                  <span className="text-accent font-medium shrink-0">{label}:</span>
-                  <span className="text-muted-foreground">{content}</span>
-                </div>
+                <AnimatedSection key={index} delay={index * 0.05}>
+                  <div className="flex gap-4">
+                    <span className="text-accent font-medium shrink-0">{label}:</span>
+                    <span className="text-muted-foreground">{content}</span>
+                  </div>
+                </AnimatedSection>
               );
             })}
           </div>
@@ -161,27 +183,30 @@ const OriginDetailPage = () => {
       </section>
 
       {/* Other Origins */}
-      <section className="section bg-card">
+      <section className="section-lg bg-card">
         <div className="container-wide">
-          <SectionHeader
-            title="Explore Other Origins"
-            centered
-          />
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8 max-w-2xl mx-auto">
-            {otherOrigins.map((other) => (
-              <Link
-                key={other.id}
-                to={`/origins/${other.slug}`}
-                className="trade-card bg-background group"
-              >
-                <span className="tag-brass mb-3 inline-block">{other.name}</span>
-                <h3 className="font-serif text-lg group-hover:text-accent transition-colors">
-                  {other.tagline}
-                </h3>
-                <span className="flex items-center gap-2 mt-4 text-sm font-medium text-muted-foreground group-hover:text-accent transition-colors">
-                  Explore <ArrowRight className="w-4 h-4" />
-                </span>
-              </Link>
+          <AnimatedSection>
+            <SectionHeader
+              title="Explore Other Origins"
+              centered
+            />
+          </AnimatedSection>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-12 max-w-2xl mx-auto">
+            {otherOrigins.map((other, index) => (
+              <AnimatedSection key={other.id} delay={index * 0.1}>
+                <Link
+                  to={`/origins/${other.slug}`}
+                  className="trade-card bg-background group block"
+                >
+                  <span className="tag-brass mb-3 inline-block">{other.name}</span>
+                  <h3 className="font-serif text-lg group-hover:text-accent transition-colors">
+                    {other.tagline}
+                  </h3>
+                  <span className="flex items-center gap-2 mt-4 text-sm font-medium text-muted-foreground group-hover:text-accent transition-colors">
+                    Explore <ArrowRight className="w-4 h-4" />
+                  </span>
+                </Link>
+              </AnimatedSection>
             ))}
           </div>
         </div>
