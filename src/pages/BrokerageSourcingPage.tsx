@@ -2,12 +2,11 @@ import { Layout } from "@/components/Layout";
 import { SEOHead } from "@/components/SEOHead";
 import { SectionHeader } from "@/components/SectionHeader";
 import { FAQBlock } from "@/components/FAQBlock";
-import { CTABlock } from "@/components/CTABlock";
+import { EnquiryCTABlock } from "@/components/EnquiryCTABlock";
 import { AnimatedSection } from "@/components/AnimatedSection";
 import { PageHero } from "@/components/PageHero";
-import { ImageDivider } from "@/components/ImageDivider";
 import { ImageTextSection } from "@/components/ImageTextSection";
-import { VisualBreak } from "@/components/VisualBreak";
+import { ParallaxQuote } from "@/components/ParallaxQuote";
 import { services } from "@/data/services";
 import { brokerageFaqs } from "@/data/faqs";
 import heroBrokerage from "@/assets/hero-brokerage.jpg";
@@ -95,12 +94,12 @@ const BrokerageSourcingPage = () => {
         </div>
       </section>
 
-      {/* Visual Break */}
-      <VisualBreak
+      {/* Parallax Quote */}
+      <ParallaxQuote
         image={dryingBeds}
-        alt="Coffee cherries drying on raised beds in East Africa"
-        caption="Natural processing requires careful attention during the extended drying period."
-        height="md"
+        alt="Coffee cherries drying on raised beds"
+        quote="Natural processing extends drying time to 20-30 days, concentrating sugars and developing the fruit-forward complexity African coffees are known for."
+        attribution="Processing Insights"
       />
 
       {/* Services */}
@@ -153,8 +152,13 @@ const BrokerageSourcingPage = () => {
         </div>
       </section>
 
-      {/* Image Divider */}
-      <ImageDivider image={coffeeSorting} alt="Coffee sample preparation" height="md" />
+      {/* Parallax Quote */}
+      <ParallaxQuote
+        image={coffeeSorting}
+        alt="Coffee sample preparation"
+        quote="Kenya's auction system grades coffees by screen size and quality—AA represents the largest beans, typically 17-18 screen size."
+        attribution="Kenya Coffee Trade"
+      />
 
       {/* Partner Relationships - Image/Text Split */}
       <section className="section-lg bg-card">
@@ -236,11 +240,9 @@ const BrokerageSourcingPage = () => {
       </section>
 
       {/* CTA */}
-      <CTABlock
-        variant="dark"
+      <EnquiryCTABlock
         title="Ready to Start Sourcing?"
-        description="Submit a sourcing enquiry with your requirements, or get in touch for a general conversation about how we can help."
-        primaryLink="/contact#enquiry"
+        description="Submit a sourcing enquiry with your requirements, or explore our origin profiles to learn more about the coffees we represent."
         primaryLabel="Submit Sourcing Enquiry"
         secondaryLink="/origins"
         secondaryLabel="Explore Origins"

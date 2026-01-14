@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { Layout } from "@/components/Layout";
@@ -6,10 +7,11 @@ import { SectionHeader } from "@/components/SectionHeader";
 import { ServiceCard } from "@/components/ServiceCard";
 import { OriginImageCard } from "@/components/OriginImageCard";
 import { InsightCard } from "@/components/InsightCard";
-import { CTABlock } from "@/components/CTABlock";
+import { EnquiryCTABlock } from "@/components/EnquiryCTABlock";
 import { AnimatedSection } from "@/components/AnimatedSection";
 import { PageHero } from "@/components/PageHero";
-import { ImageDivider } from "@/components/ImageDivider";
+import { ParallaxQuote } from "@/components/ParallaxQuote";
+import { SourcingEnquiryModal } from "@/components/SourcingEnquiryModal";
 import { company, principles } from "@/data/company";
 import { services } from "@/data/services";
 import { origins } from "@/data/origins";
@@ -27,6 +29,8 @@ const originImages: Record<string, string> = {
 };
 
 const Index = () => {
+  const [enquiryModalOpen, setEnquiryModalOpen] = useState(false);
+
   return (
     <Layout>
       <SEOHead />
@@ -40,13 +44,13 @@ const Index = () => {
         size="large"
       >
         <div className="flex flex-col sm:flex-row gap-4">
-          <Link
-            to="/contact#enquiry"
+          <button
+            onClick={() => setEnquiryModalOpen(true)}
             className="inline-flex items-center justify-center gap-2 px-6 py-3 font-medium bg-accent text-accent-foreground hover:bg-[hsl(42,50%,63%)] hover:shadow-md transition-all"
           >
             Submit Sourcing Enquiry
             <ArrowRight className="w-4 h-4" />
-          </Link>
+          </button>
           <Link
             to="/brokerage-sourcing"
             className="inline-flex items-center justify-center gap-2 px-6 py-3 font-medium border-2 border-white/30 text-white hover:border-accent hover:text-accent transition-colors"
@@ -81,8 +85,13 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Image Divider */}
-      <ImageDivider image={coffeeSorting} alt="Green coffee beans being sorted" height="md" />
+      {/* Parallax Quote */}
+      <ParallaxQuote
+        image={coffeeSorting}
+        alt="Green coffee beans being sorted"
+        quote="Coffee is far more than a beverage. It is an invitation to life, disguised as a cup of warm liquid."
+        attribution="African Proverb"
+      />
 
       {/* Services */}
       <section className="section-lg">
@@ -197,14 +206,16 @@ const Index = () => {
       </section>
 
       {/* CTA */}
-      <CTABlock
-        variant="dark"
+      <EnquiryCTABlock
         title="Ready to Source East African Coffee?"
         description="Tell us about your requirements. Whether you're looking for a specific profile, volume, or timing—we'll help you find the right coffees from our partner network."
-        primaryLink="/contact#enquiry"
-        primaryLabel="Submit Sourcing Enquiry"
         secondaryLink="/contact"
         secondaryLabel="General Contact"
+      />
+
+      <SourcingEnquiryModal 
+        isOpen={enquiryModalOpen} 
+        onClose={() => setEnquiryModalOpen(false)} 
       />
     </Layout>
   );

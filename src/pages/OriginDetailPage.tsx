@@ -3,20 +3,36 @@ import { ArrowRight } from "lucide-react";
 import { Layout } from "@/components/Layout";
 import { SEOHead } from "@/components/SEOHead";
 import { SectionHeader } from "@/components/SectionHeader";
-import { CTABlock } from "@/components/CTABlock";
+import { EnquiryCTABlock } from "@/components/EnquiryCTABlock";
 import { AnimatedSection } from "@/components/AnimatedSection";
 import { PageHero } from "@/components/PageHero";
-import { ImageDivider } from "@/components/ImageDivider";
+import { ParallaxQuote } from "@/components/ParallaxQuote";
 import { getOriginBySlug, origins } from "@/data/origins";
 import originKenya from "@/assets/origin-kenya.jpg";
 import originEthiopia from "@/assets/origin-ethiopia.jpg";
 import originUganda from "@/assets/origin-uganda.jpg";
 import coffeeSorting from "@/assets/coffee-sorting.jpg";
+import dryingBeds from "@/assets/drying-beds.jpg";
 
 const originImages: Record<string, string> = {
   kenya: originKenya,
   ethiopia: originEthiopia,
   uganda: originUganda,
+};
+
+const originQuotes: Record<string, { quote: string; attribution: string }> = {
+  kenya: {
+    quote: "Kenya's SL28 and SL34 cultivars were developed in the 1930s and remain among the most prized varieties for their complex, wine-like acidity.",
+    attribution: "Coffee Research Foundation",
+  },
+  ethiopia: {
+    quote: "The birthplace of Arabica coffee, Ethiopia's forests contain more genetic diversity than all other coffee-growing regions combined.",
+    attribution: "World Coffee Research",
+  },
+  uganda: {
+    quote: "Uganda is Africa's largest coffee exporter by volume, with Robusta accounting for 80% of production and Arabica commanding specialty premiums.",
+    attribution: "Uganda Coffee Development Authority",
+  },
 };
 
 const OriginDetailPage = () => {
@@ -28,6 +44,7 @@ const OriginDetailPage = () => {
   }
 
   const otherOrigins = origins.filter((o) => o.id !== origin.id);
+  const quote = originQuotes[origin.slug] || originQuotes.kenya;
 
   return (
     <Layout>
@@ -80,8 +97,13 @@ const OriginDetailPage = () => {
         </div>
       </section>
 
-      {/* Image Divider */}
-      <ImageDivider image={coffeeSorting} alt="Coffee processing" height="md" />
+      {/* Parallax Quote */}
+      <ParallaxQuote
+        image={coffeeSorting}
+        alt="Coffee processing"
+        quote={quote.quote}
+        attribution={quote.attribution}
+      />
 
       {/* Processing */}
       <section className="section-lg">
@@ -141,6 +163,14 @@ const OriginDetailPage = () => {
           </AnimatedSection>
         </div>
       </section>
+
+      {/* Parallax Quote 2 */}
+      <ParallaxQuote
+        image={dryingBeds}
+        alt="Coffee drying beds"
+        quote="The altitude, soil composition, and microclimate of each region impart unique terroir characteristics that define the cup profile."
+        attribution="Specialty Coffee Association"
+      />
 
       {/* Sourcing Approach */}
       <section className="section-lg bg-card">
@@ -213,11 +243,9 @@ const OriginDetailPage = () => {
       </section>
 
       {/* CTA */}
-      <CTABlock
-        variant="dark"
+      <EnquiryCTABlock
         title={`Source ${origin.name} Coffee`}
         description={`Tell us about your requirements for ${origin.name} coffee. We'll identify suitable options from our partner network.`}
-        primaryLink="/contact#enquiry"
         primaryLabel="Submit Sourcing Enquiry"
         secondaryLink="/brokerage-sourcing"
         secondaryLabel="How We Work"
