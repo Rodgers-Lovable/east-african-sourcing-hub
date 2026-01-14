@@ -13,6 +13,7 @@ import InsightsPage from "./pages/InsightsPage";
 import InsightDetailPage from "./pages/InsightDetailPage";
 import ContactPage from "./pages/ContactPage";
 import NotFound from "./pages/NotFound";
+import ScrollToTop from "./components/ui/scroll-to-top";
 
 const queryClient = new QueryClient();
 
@@ -23,6 +24,7 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
+          <ScrollToTop />
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/about" element={<AboutPage />} />
