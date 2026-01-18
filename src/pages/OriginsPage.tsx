@@ -15,6 +15,7 @@ import originKenya from "@/assets/origin-kenya.jpg";
 import originEthiopia from "@/assets/origin-ethiopia.jpg";
 import originUganda from "@/assets/origin-uganda.jpg";
 import dryingBeds from "@/assets/drying-beds.jpg";
+import { trackCTASourcing } from "@/lib/umami";
 
 const originImages: Record<string, string> = {
   kenya: originKenya,
@@ -135,7 +136,10 @@ const OriginsPage = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
               <button
-                onClick={() => setEnquiryModalOpen(true)}
+                onClick={() => {
+                  trackCTASourcing.fromOrigin('origins-hub');
+                  setEnquiryModalOpen(true);
+                }}
                 className="inline-flex items-center justify-center gap-2 px-6 py-3 font-medium bg-accent text-accent-foreground hover:bg-[hsl(42,50%,63%)] hover:shadow-md transition-all"
               >
                 Submit Sourcing Enquiry

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Mail, MessageCircle, MapPin, Linkedin, ArrowRight } from "lucide-react";
 import { Layout } from "@/components/Layout";
 import { SEOHead } from "@/components/SEOHead";
@@ -13,6 +13,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useEmailJS } from "@/hooks/useEmailJS";
 import heroContact from "@/assets/hero-contact.jpg";
+import { trackContact, trackCTASourcing, trackPartnerForm } from "@/lib/umami";
 
 // General Contact Form Data
 interface GeneralFormData {
@@ -58,6 +59,7 @@ const initialPartnerData: PartnerFormData = {
 
 const ContactPage = () => {
   const [enquiryModalOpen, setEnquiryModalOpen] = useState(false);
+  const [hasStartedPartnerForm, setHasStartedPartnerForm] = useState(false);
   
   // General Contact Form
   const [generalData, setGeneralData] = useState<GeneralFormData>(initialGeneralData);
@@ -75,11 +77,24 @@ const ContactPage = () => {
     resetStatus: resetPartnerStatus 
   } = useEmailJS();
 
+  // Track partner form view
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash === '#partner') {
+      trackPartnerForm.view();
+    }
+  }, []);
+
   const handleGeneralChange = (field: keyof GeneralFormData, value: string) => {
     setGeneralData(prev => ({ ...prev, [field]: value }));
   };
 
   const handlePartnerChange = (field: keyof PartnerFormData, value: string) => {
+    // Track form start on first interaction
+    if (!hasStartedPartnerForm) {
+      setHasStartedPartnerForm(true);
+      trackPartnerForm.start();
+    }
     setPartnerData(prev => ({ ...prev, [field]: value }));
   };
 
@@ -94,6 +109,7 @@ const ContactPage = () => {
         buyerType: generalData.buyerType,
         message: generalData.message,
       });
+      trackContact.formSubmitSuccess();
       setGeneralData(initialGeneralData);
     } catch {
       // Error is handled by the hook
@@ -113,7 +129,9 @@ const ContactPage = () => {
         description: partnerData.description,
         websiteLink: partnerData.websiteLink,
       });
+      trackPartnerForm.submitSuccess();
       setPartnerData(initialPartnerData);
+      setHasStartedPartnerForm(false);
     } catch {
       // Error is handled by the hook
     }
@@ -140,14 +158,24 @@ const ContactPage = () => {
         <div className="container-wide">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <AnimatedSection delay={0}>
-              <a href={`mailto:${company.contact.email}`} className="trade-card group block h-full">
+              <a 
+                href={`mailto:${company.contact.email}`} 
+                onClick={() => trackContact.emailClick()}
+                className="trade-card group block h-full"
+              >
                 <Mail className="w-6 h-6 text-accent mb-4" />
                 <h3 className="font-serif text-lg mb-2 group-hover:text-accent transition-colors">Email</h3>
                 <p className="text-sm text-muted-foreground">{company.contact.email}</p>
               </a>
             </AnimatedSection>
             <AnimatedSection delay={0.1}>
-              <a href={`https://wa.me/${company.contact.whatsapp.replace(/[^0-9]/g, "")}`} target="_blank" rel="noopener noreferrer" className="trade-card group block h-full">
+              <a 
+                href={`https://wa.me/${company.contact.whatsapp.replace(/[^0-9]/g, "")}`} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                onClick={() => trackContact.whatsappClick()}
+                className="trade-card group block h-full"
+              >
                 <MessageCircle className="w-6 h-6 text-accent mb-4" />
                 <h3 className="font-serif text-lg mb-2 group-hover:text-accent transition-colors">WhatsApp</h3>
                 <p className="text-sm text-muted-foreground">{company.contact.whatsapp}</p>
@@ -161,7 +189,13 @@ const ContactPage = () => {
               </div>
             </AnimatedSection>
             <AnimatedSection delay={0.3}>
-              <a href={company.social.linkedin} target="_blank" rel="noopener noreferrer" className="trade-card group block h-full">
+              <a 
+                href={company.social.linkedin} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                onClick={() => trackContact.linkedinClick()}
+                className="trade-card group block h-full"
+              >
                 <Linkedin className="w-6 h-6 text-accent mb-4" />
                 <h3 className="font-serif text-lg mb-2 group-hover:text-accent transition-colors">LinkedIn</h3>
                 <p className="text-sm text-muted-foreground">Connect with us</p>
@@ -180,7 +214,10 @@ const ContactPage = () => {
               Submit a detailed sourcing enquiry and tell us about your requirements—origin preferences, volume expectations, profile targets, and timing.
             </p>
             <button
-              onClick={() => setEnquiryModalOpen(true)}
+              onClick={() => {
+                trackCTASourcing.fromContact();
+                setEnquiryModalOpen(true);
+              }}
               className="mt-8 inline-flex items-center justify-center gap-2 px-6 py-3 font-medium bg-accent text-accent-foreground hover:bg-[hsl(42,50%,63%)] hover:shadow-md transition-all"
             >
               Submit Sourcing Enquiry

@@ -1,13 +1,26 @@
 import { useParams, Navigate, Link } from "react-router-dom";
+import { useEffect } from "react";
 import { ArrowLeft } from "lucide-react";
 import { Layout } from "@/components/Layout";
 import { SEOHead } from "@/components/SEOHead";
 import { InsightCard } from "@/components/InsightCard";
 import { getInsightBySlug, insights } from "@/data/insights";
+import { useScrollTracking } from "@/hooks/useScrollTracking";
+import { trackInsight } from "@/lib/umami";
 
 const InsightDetailPage = () => {
   const { slug } = useParams<{ slug: string }>();
   const post = slug ? getInsightBySlug(slug) : undefined;
+
+  // Track scroll depth on insight pages
+  useScrollTracking({ type: 'insight', postTitle: post?.title });
+
+  // Track insight post view
+  useEffect(() => {
+    if (post) {
+      trackInsight.postView(post.title, post.category);
+    }
+  }, [post]);
 
   if (!post) {
     return <Navigate to="/insights" replace />;

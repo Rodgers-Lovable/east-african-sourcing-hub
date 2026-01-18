@@ -13,6 +13,7 @@ import originEthiopia from "@/assets/origin-ethiopia.jpg";
 import originUganda from "@/assets/origin-uganda.jpg";
 import coffeeSorting from "@/assets/coffee-sorting.jpg";
 import dryingBeds from "@/assets/drying-beds.jpg";
+import { useScrollTracking } from "@/hooks/useScrollTracking";
 
 const originImages: Record<string, string> = {
   kenya: originKenya,
@@ -38,6 +39,9 @@ const originQuotes: Record<string, { quote: string; attribution: string }> = {
 const OriginDetailPage = () => {
   const { slug } = useParams<{ slug: string }>();
   const origin = slug ? getOriginBySlug(slug) : undefined;
+
+  // Track scroll depth on origin pages
+  useScrollTracking({ type: 'origin', origin: slug });
 
   if (!origin) {
     return <Navigate to="/origins" replace />;

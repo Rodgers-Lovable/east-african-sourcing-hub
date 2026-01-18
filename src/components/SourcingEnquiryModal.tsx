@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useEmailJS } from "@/hooks/useEmailJS";
+import { trackSourcingModal } from "@/lib/umami";
 
 interface SourcingEnquiryModalProps {
   isOpen: boolean;
@@ -41,8 +42,16 @@ const initialFormData: FormData = {
 
 export const SourcingEnquiryModal = ({ isOpen, onClose }: SourcingEnquiryModalProps) => {
   const [formData, setFormData] = useState<FormData>(initialFormData);
+  const [hasStartedForm, setHasStartedForm] = useState(false);
   const { status, submitSourcingEnquiry, resetStatus } = useEmailJS();
   const formRef = useRef<HTMLFormElement>(null);
+
+  // Track modal open
+  useEffect(() => {
+    if (isOpen) {
+      trackSourcingModal.open();
+    }
+  }, [isOpen]);
 
   // Lock body scroll when modal is open
   useEffect(() => {
@@ -68,10 +77,20 @@ export const SourcingEnquiryModal = ({ isOpen, onClose }: SourcingEnquiryModalPr
   }, [isOpen, onClose]);
 
   const handleInputChange = (field: keyof FormData, value: string) => {
+    // Track form start on first interaction
+    if (!hasStartedForm) {
+      setHasStartedForm(true);
+      trackSourcingModal.formStart();
+    }
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
   const handleOriginToggle = (origin: string, checked: boolean) => {
+    // Track form start on first interaction
+    if (!hasStartedForm) {
+      setHasStartedForm(true);
+      trackSourcingModal.formStart();
+    }
     setFormData(prev => ({
       ...prev,
       origins: checked 
@@ -96,13 +115,25 @@ export const SourcingEnquiryModal = ({ isOpen, onClose }: SourcingEnquiryModalPr
         processingPreference: formData.processingPreference,
         notes: formData.notes,
       });
+      
+      // Track success with optional properties
+      trackSourcingModal.submitSuccess({
+        originSelected: formData.origins.length > 1 ? 'multiple' : formData.origins[0] || '',
+        volumeRange: formData.volume || '',
+      });
     } catch {
-      // Error is handled by the hook
+      // Track error
+      trackSourcingModal.submitError();
     }
   };
 
   const handleClose = () => {
+    // Track modal close (only if user manually closes, not after success)
+    if (status !== "success") {
+      trackSourcingModal.close();
+    }
     setFormData(initialFormData);
+    setHasStartedForm(false);
     resetStatus();
     onClose();
   };
