@@ -5,6 +5,8 @@ import { company } from "@/data/company";
 import { origins } from "@/data/origins";
 import { SourcingEnquiryModal } from "./SourcingEnquiryModal";
 import { ThemeToggle } from "./ThemeToggle";
+import ImweraLogoDark from "@/assets/logo-dark.png";
+import ImweraLogoLight from "@/assets/logo-light.png";
 
 const navigation = [
   { name: "About", href: "/about" },
@@ -30,10 +32,10 @@ export const Header = () => {
       const scrollThreshold = 200; // Scroll threshold in pixels
       setIsScrolled(window.scrollY > scrollThreshold);
     };
-    
+
     // Check initial scroll position
     handleScroll();
-    
+
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -41,7 +43,10 @@ export const Header = () => {
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setOriginsDropdownOpen(false);
       }
     };
@@ -68,32 +73,36 @@ export const Header = () => {
     }, 150);
   };
 
-  const isOriginActive = location.pathname === "/origins" || location.pathname.startsWith("/origins/");
+  const isOriginActive =
+    location.pathname === "/origins" ||
+    location.pathname.startsWith("/origins/");
 
   return (
     <>
-      <header 
+      <header
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          isScrolled 
-            ? "bg-card/95 backdrop-blur-sm border-b border-border" 
+          isScrolled
+            ? "bg-card/95 backdrop-blur-sm border-b border-border"
             : "bg-transparent border-b border-transparent"
         }`}
       >
         <nav className="container-wide">
           <div className="flex items-center justify-between h-16 md:h-20">
             {/* Logo */}
-            <Link 
-              to="/" 
+            <Link
+              to="/"
               className={`font-serif text-xl md:text-2xl font-medium transition-colors hover:text-accent ${
                 isScrolled ? "text-foreground" : "text-white drop-shadow-md"
               }`}
             >
-              {company.name}
+              <img width={80} src={isScrolled ? ImweraLogoLight : ImweraLogoDark} alt="Imwera Coffee" />
+
+              {/* {company.name} */}
             </Link>
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center gap-6">
-              {navigation.map((item) => (
+              {navigation.map((item) =>
                 item.hasDropdown ? (
                   <div
                     key={item.name}
@@ -107,15 +116,17 @@ export const Header = () => {
                       className={`inline-flex items-center gap-1 text-sm font-medium transition-colors relative ${
                         isOriginActive
                           ? "text-accent after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-accent"
-                          : isScrolled 
-                            ? "text-muted-foreground hover:text-accent" 
+                          : isScrolled
+                            ? "text-muted-foreground hover:text-accent"
                             : "text-white/90 hover:text-white drop-shadow-md"
                       }`}
                     >
                       {item.name}
-                      <ChevronDown className={`w-4 h-4 transition-transform ${originsDropdownOpen ? "rotate-180" : ""}`} />
+                      <ChevronDown
+                        className={`w-4 h-4 transition-transform ${originsDropdownOpen ? "rotate-180" : ""}`}
+                      />
                     </Link>
-                    
+
                     {/* Dropdown - Elevated Slate surface */}
                     {originsDropdownOpen && (
                       <div className="absolute top-full left-0 mt-2 w-48 bg-card border border-border shadow-lg rounded-sm overflow-hidden animate-fade-in">
@@ -142,21 +153,22 @@ export const Header = () => {
                     key={item.name}
                     to={item.href}
                     className={`text-sm font-medium transition-colors relative ${
-                      location.pathname === item.href || location.pathname.startsWith(item.href + "/")
+                      location.pathname === item.href ||
+                      location.pathname.startsWith(item.href + "/")
                         ? "text-accent after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-accent"
-                        : isScrolled 
-                          ? "text-muted-foreground hover:text-accent" 
+                        : isScrolled
+                          ? "text-muted-foreground hover:text-accent"
                           : "text-white/90 hover:text-white drop-shadow-md"
                     }`}
                   >
                     {item.name}
                   </Link>
-                )
-              ))}
-              
+                ),
+              )}
+
               {/* Theme Toggle */}
               <ThemeToggle />
-              
+
               <button
                 onClick={() => setEnquiryModalOpen(true)}
                 className="text-sm font-medium px-5 py-2 bg-accent text-accent-foreground hover:bg-[hsl(42,50%,63%)] hover:shadow-md transition-all"
@@ -173,7 +185,11 @@ export const Header = () => {
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                 aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
               >
-                {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+                {mobileMenuOpen ? (
+                  <X className="w-6 h-6" />
+                ) : (
+                  <Menu className="w-6 h-6" />
+                )}
               </button>
             </div>
           </div>
@@ -182,7 +198,7 @@ export const Header = () => {
           {mobileMenuOpen && (
             <div className="md:hidden py-4 border-t border-border bg-card">
               <div className="flex flex-col gap-2">
-                {navigation.map((item) => (
+                {navigation.map((item) =>
                   item.hasDropdown ? (
                     <div key={item.name}>
                       <div className="flex items-center justify-between">
@@ -198,11 +214,15 @@ export const Header = () => {
                           {item.name}
                         </Link>
                         <button
-                          onClick={() => setMobileOriginsOpen(!mobileOriginsOpen)}
+                          onClick={() =>
+                            setMobileOriginsOpen(!mobileOriginsOpen)
+                          }
                           className="p-2 text-muted-foreground hover:text-accent"
                           aria-label="Toggle origins submenu"
                         >
-                          <ChevronDown className={`w-5 h-5 transition-transform ${mobileOriginsOpen ? "rotate-180" : ""}`} />
+                          <ChevronDown
+                            className={`w-5 h-5 transition-transform ${mobileOriginsOpen ? "rotate-180" : ""}`}
+                          />
                         </button>
                       </div>
                       {mobileOriginsOpen && (
@@ -237,8 +257,8 @@ export const Header = () => {
                     >
                       {item.name}
                     </Link>
-                  )
-                ))}
+                  ),
+                )}
                 <button
                   onClick={() => {
                     setMobileMenuOpen(false);
@@ -254,9 +274,9 @@ export const Header = () => {
         </nav>
       </header>
 
-      <SourcingEnquiryModal 
-        isOpen={enquiryModalOpen} 
-        onClose={() => setEnquiryModalOpen(false)} 
+      <SourcingEnquiryModal
+        isOpen={enquiryModalOpen}
+        onClose={() => setEnquiryModalOpen(false)}
       />
     </>
   );

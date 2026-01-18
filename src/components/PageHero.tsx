@@ -81,14 +81,14 @@ export const PageHero = ({
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 1, duration: 0.6 }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2"
+          transition={{ delay: 1, duration: 2.6 }}
+          className="absolute bottom-2 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2"
         >
           <span className="text-primary-foreground/60 text-sm tracking-wider uppercase">
             Scroll
           </span>
           <motion.div
-            animate={{ y: [0, 8, 0] }}
+            animate={{ y: [0, 10, 0] }}
             transition={{ 
               duration: 1.5, 
               repeat: Infinity, 

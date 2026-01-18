@@ -138,7 +138,7 @@ const BrokerageSourcingPage = () => {
             {process.map((item, index) => (
               <AnimatedSection key={item.step} delay={index * 0.1}>
                 <div className="relative">
-                  <span className="text-6xl font-serif text-muted/30 absolute -top-4 -left-2">
+                  <span className="text-6xl font-serif text-muted absolute -top-4 -left-2">
                     {item.step}
                   </span>
                   <div className="pt-8">
