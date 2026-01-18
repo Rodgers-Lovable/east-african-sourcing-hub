@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
 import { Linkedin, Mail, MessageCircle } from "lucide-react";
 import { company } from "@/data/company";
+import { useTheme } from "./ThemeProvider";
+import ImweraLogoDark from "@/assets/logo-dark.png";
+import ImweraLogoLight from "@/assets/logo-light.png";
 
 const footerNavigation = {
   company: [
@@ -21,6 +24,8 @@ const footerNavigation = {
 };
 
 export const Footer = () => {
+  const { resolvedTheme } = useTheme();
+
   return (
     <footer className="bg-card border-t border-border">
       <div className="container-wide section">
@@ -28,11 +33,21 @@ export const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
           {/* Brand Column */}
           <div className="lg:col-span-1">
-            <Link to="/" className="font-serif text-2xl font-medium text-foreground">
-              {company.name}
+            <Link
+              to="/"
+              className="font-serif text-2xl font-medium text-foreground"
+            >
+              <img
+                width={150}
+                src={
+                  resolvedTheme === "dark" ? ImweraLogoDark : ImweraLogoLight
+                }
+                alt="Imwera Coffee"
+              />
             </Link>
             <p className="mt-4 text-muted-foreground text-sm leading-relaxed">
-              Independent green coffee brokerage and sourcing across Kenya, Ethiopia, and Uganda.
+              Independent green coffee brokerage and sourcing across Kenya,
+              Ethiopia, and Uganda.
             </p>
             <div className="flex gap-4 mt-6">
               <a
@@ -97,7 +112,9 @@ export const Footer = () => {
           </div>
 
           <div>
-            <h4 className="font-serif text-lg mb-4 text-foreground">Resources</h4>
+            <h4 className="font-serif text-lg mb-4 text-foreground">
+              Resources
+            </h4>
             <ul className="space-y-3">
               {footerNavigation.resources.map((item) => (
                 <li key={item.name}>
@@ -118,6 +135,12 @@ export const Footer = () => {
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-xs text-muted-foreground">
               © {new Date().getFullYear()} {company.name}. All rights reserved.
+            </p>
+            <p className="text-xs text-muted-foreground">
+              Developed & Maintained by{" "}
+              <a href={`mailto:${company.dev.email}`} className="underline text-primary">
+                {company.dev.lname}
+              </a>
             </p>
             <p className="text-xs text-muted-foreground">
               {company.contact.location}

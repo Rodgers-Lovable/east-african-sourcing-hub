@@ -5,6 +5,7 @@ import { company } from "@/data/company";
 import { origins } from "@/data/origins";
 import { SourcingEnquiryModal } from "./SourcingEnquiryModal";
 import { ThemeToggle } from "./ThemeToggle";
+import { useTheme } from "./ThemeProvider";
 import ImweraLogoDark from "@/assets/logo-dark.png";
 import ImweraLogoLight from "@/assets/logo-light.png";
 
@@ -23,6 +24,7 @@ export const Header = () => {
   const [enquiryModalOpen, setEnquiryModalOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
+  const { resolvedTheme } = useTheme();
   const dropdownRef = useRef<HTMLDivElement>(null);
   const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -95,7 +97,15 @@ export const Header = () => {
                 isScrolled ? "text-foreground" : "text-white drop-shadow-md"
               }`}
             >
-              <img width={80} src={isScrolled ? ImweraLogoLight : ImweraLogoDark} alt="Imwera Coffee" />
+              <img
+                width={80}
+                src={
+                  isScrolled
+                    ? (resolvedTheme === 'dark' ? ImweraLogoDark : ImweraLogoLight)
+                    : ImweraLogoDark
+                }
+                alt="Imwera Coffee"
+              />
 
               {/* {company.name} */}
             </Link>

@@ -29,7 +29,13 @@ export const company = {
 
   // Social links
   social: {
-    linkedin: "https://linkedin.com/company/imwera-coffee",
+    linkedin: "https://linkedin.com/in/imwera-coffee",
+  },
+  dev: {
+    fname: "Brian",
+    lname: "Mawira",
+    email: "brianmawira2@gmail.com",
+    website: "https://mawirab.com",
   },
 };
 
