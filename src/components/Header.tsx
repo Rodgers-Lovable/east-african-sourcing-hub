@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, ChevronDown } from "lucide-react";
+import { Menu, ChevronDown, Coffee, Phone } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { company } from "@/data/company";
 import { origins } from "@/data/origins";
@@ -8,6 +8,19 @@ import { ThemeToggle } from "./ThemeToggle";
 import { useTheme } from "./ThemeProvider";
 import ImweraLogoDark from "@/assets/logo-dark.png";
 import ImweraLogoLight from "@/assets/logo-light.png";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 const navigation = [
   { name: "About", href: "/about" },
@@ -18,11 +31,10 @@ const navigation = [
 ];
 
 export const Header = () => {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [originsDropdownOpen, setOriginsDropdownOpen] = useState(false);
-  const [mobileOriginsOpen, setMobileOriginsOpen] = useState(false);
   const [enquiryModalOpen, setEnquiryModalOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
   const { resolvedTheme } = useTheme();
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -59,7 +71,6 @@ export const Header = () => {
   // Close mobile menu on route change
   useEffect(() => {
     setMobileMenuOpen(false);
-    setMobileOriginsOpen(false);
   }, [location.pathname]);
 
   const handleMouseEnter = () => {
@@ -187,100 +198,126 @@ export const Header = () => {
               </button>
             </div>
 
-            {/* Mobile Menu Button */}
+            {/* Mobile Menu Button - Sheet Trigger */}
             <div className="flex items-center gap-2 md:hidden">
               <ThemeToggle />
-              <button
-                className={`p-2 transition-colors ${isScrolled ? "text-foreground" : "text-white drop-shadow-md"}`}
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
-              >
-                {mobileMenuOpen ? (
-                  <X className="w-6 h-6" />
-                ) : (
-                  <Menu className="w-6 h-6" />
-                )}
-              </button>
-            </div>
-          </div>
+              <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
+                <SheetTrigger asChild>
+                  <button
+                    className={`p-2 transition-colors ${isScrolled ? "text-foreground" : "text-white drop-shadow-md"}`}
+                    aria-label="Open menu"
+                  >
+                    <Menu className="w-6 h-6" />
+                  </button>
+                </SheetTrigger>
+                <SheetContent side="right" className="w-[300px] sm:w-[350px] flex flex-col p-0">
+                  {/* Sheet Header with Logo */}
+                  <SheetHeader className="px-6 py-5 border-b border-border">
+                    <SheetTitle className="flex items-center gap-3">
+                      <img
+                        width={100}
+                        src={resolvedTheme === 'dark' ? ImweraLogoDark : ImweraLogoLight}
+                        alt="Imwera Coffee"
+                      />
+                    </SheetTitle>
+                  </SheetHeader>
 
-          {/* Mobile Navigation */}
-          {mobileMenuOpen && (
-            <div className="md:hidden py-4 border-t border-border bg-card">
-              <div className="flex flex-col gap-2">
-                {navigation.map((item) =>
-                  item.hasDropdown ? (
-                    <div key={item.name}>
-                      <div className="flex items-center justify-between">
-                        <Link
-                          to={item.href}
-                          onClick={() => setMobileMenuOpen(false)}
-                          className={`flex-1 text-base font-medium py-2 transition-colors ${
-                            isOriginActive
-                              ? "text-accent"
-                              : "text-foreground hover:text-accent"
-                          }`}
-                        >
-                          {item.name}
-                        </Link>
-                        <button
-                          onClick={() =>
-                            setMobileOriginsOpen(!mobileOriginsOpen)
-                          }
-                          className="p-2 text-muted-foreground hover:text-accent"
-                          aria-label="Toggle origins submenu"
-                        >
-                          <ChevronDown
-                            className={`w-5 h-5 transition-transform ${mobileOriginsOpen ? "rotate-180" : ""}`}
-                          />
-                        </button>
-                      </div>
-                      {mobileOriginsOpen && (
-                        <div className="pl-4 pb-2 flex flex-col gap-1 border-l-2 border-border ml-2">
-                          {origins.map((origin) => (
-                            <Link
-                              key={origin.slug}
-                              to={`/origins/${origin.slug}`}
-                              onClick={() => setMobileMenuOpen(false)}
-                              className={`text-sm py-2 transition-colors ${
-                                location.pathname === `/origins/${origin.slug}`
-                                  ? "text-accent"
-                                  : "text-muted-foreground hover:text-accent"
-                              }`}
-                            >
-                              {origin.name}
-                            </Link>
-                          ))}
-                        </div>
+                  {/* Navigation Links */}
+                  <nav className="flex-1 overflow-y-auto px-4 py-6">
+                    <div className="space-y-1">
+                      {navigation.map((item) =>
+                        item.hasDropdown ? (
+                          <Accordion
+                            key={item.name}
+                            type="single"
+                            collapsible
+                            defaultValue={isOriginActive ? "origins" : undefined}
+                          >
+                            <AccordionItem value="origins" className="border-none">
+                              <div className="flex items-center">
+                                <Link
+                                  to={item.href}
+                                  onClick={() => setMobileMenuOpen(false)}
+                                  className={`flex-1 flex items-center gap-3 px-4 py-3 rounded-lg text-base font-medium transition-all ${
+                                    location.pathname === item.href
+                                      ? "bg-accent/10 text-accent"
+                                      : "text-foreground hover:bg-muted"
+                                  }`}
+                                >
+                                  <Coffee className="w-5 h-5" />
+                                  {item.name}
+                                </Link>
+                                <AccordionTrigger className="px-3 py-3 hover:no-underline [&[data-state=open]>svg]:rotate-180">
+                                  <span className="sr-only">Toggle {item.name} submenu</span>
+                                </AccordionTrigger>
+                              </div>
+                              <AccordionContent className="pb-0 pt-1">
+                                <div className="ml-8 pl-4 border-l-2 border-accent/30 space-y-1">
+                                  {origins.map((origin) => (
+                                    <Link
+                                      key={origin.slug}
+                                      to={`/origins/${origin.slug}`}
+                                      onClick={() => setMobileMenuOpen(false)}
+                                      className={`block px-4 py-2.5 rounded-lg text-sm font-medium transition-all ${
+                                        location.pathname === `/origins/${origin.slug}`
+                                          ? "bg-accent/10 text-accent"
+                                          : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                                      }`}
+                                    >
+                                      {origin.name}
+                                    </Link>
+                                  ))}
+                                </div>
+                              </AccordionContent>
+                            </AccordionItem>
+                          </Accordion>
+                        ) : (
+                          <Link
+                            key={item.name}
+                            to={item.href}
+                            onClick={() => setMobileMenuOpen(false)}
+                            className={`flex items-center gap-3 px-4 py-3 rounded-lg text-base font-medium transition-all ${
+                              location.pathname === item.href ||
+                              location.pathname.startsWith(item.href + "/")
+                                ? "bg-accent/10 text-accent"
+                                : "text-foreground hover:bg-muted"
+                            }`}
+                          >
+                            {item.name}
+                          </Link>
+                        ),
                       )}
                     </div>
-                  ) : (
-                    <Link
-                      key={item.name}
-                      to={item.href}
-                      onClick={() => setMobileMenuOpen(false)}
-                      className={`text-base font-medium py-2 transition-colors ${
-                        location.pathname === item.href
-                          ? "text-accent"
-                          : "text-foreground hover:text-accent"
-                      }`}
+                  </nav>
+
+                  {/* Bottom CTA Section */}
+                  <div className="mt-auto border-t border-border p-6 space-y-4 bg-muted/30">
+                    <button
+                      onClick={() => {
+                        setMobileMenuOpen(false);
+                        setEnquiryModalOpen(true);
+                      }}
+                      className="w-full flex items-center justify-center gap-2 px-6 py-4 bg-accent text-accent-foreground font-semibold text-base hover:bg-accent/90 transition-all rounded-lg shadow-md"
                     >
-                      {item.name}
+                      <Coffee className="w-5 h-5" />
+                      Sourcing Enquiry
+                    </button>
+                    <Link
+                      to="/contact"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="w-full flex items-center justify-center gap-2 px-6 py-3 border border-border text-foreground font-medium text-sm hover:bg-muted transition-all rounded-lg"
+                    >
+                      <Phone className="w-4 h-4" />
+                      Contact Us
                     </Link>
-                  ),
-                )}
-                <button
-                  onClick={() => {
-                    setMobileMenuOpen(false);
-                    setEnquiryModalOpen(true);
-                  }}
-                  className="text-base font-medium px-4 py-3 mt-2 bg-accent text-accent-foreground hover:bg-[hsl(42,50%,63%)] transition-all text-center"
-                >
-                  Sourcing Enquiry
-                </button>
-              </div>
+                    <p className="text-xs text-muted-foreground text-center pt-2">
+                      {company.contact.email}
+                    </p>
+                  </div>
+                </SheetContent>
+              </Sheet>
             </div>
-          )}
+          </div>
         </nav>
       </header>
 
