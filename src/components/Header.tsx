@@ -47,7 +47,6 @@ export const Header = () => {
       setIsScrolled(window.scrollY > scrollThreshold);
     };
 
-    // Check initial scroll position
     handleScroll();
 
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -112,7 +111,9 @@ export const Header = () => {
                 width={80}
                 src={
                   isScrolled
-                    ? (resolvedTheme === 'dark' ? ImweraLogoDark : ImweraLogoLight)
+                    ? resolvedTheme === "dark"
+                      ? ImweraLogoDark
+                      : ImweraLogoLight
                     : ImweraLogoDark
                 }
                 alt="Imwera Coffee"
@@ -172,7 +173,8 @@ export const Header = () => {
                 ) : (
                   <Link
                     key={item.name}
-                    to={item.href}
+                      to={item.href}
+                      
                     className={`text-sm font-medium transition-colors relative ${
                       location.pathname === item.href ||
                       location.pathname.startsWith(item.href + "/")
@@ -210,13 +212,20 @@ export const Header = () => {
                     <Menu className="w-6 h-6" />
                   </button>
                 </SheetTrigger>
-                <SheetContent side="right" className="w-[300px] sm:w-[350px] flex flex-col p-0">
+                <SheetContent
+                  side="right"
+                  className="w-[300px] sm:w-[350px] flex flex-col p-0"
+                >
                   {/* Sheet Header with Logo */}
                   <SheetHeader className="px-6 py-5 border-b border-border">
                     <SheetTitle className="flex items-center gap-3">
                       <img
                         width={100}
-                        src={resolvedTheme === 'dark' ? ImweraLogoDark : ImweraLogoLight}
+                        src={
+                          resolvedTheme === "dark"
+                            ? ImweraLogoDark
+                            : ImweraLogoLight
+                        }
                         alt="Imwera Coffee"
                       />
                     </SheetTitle>
@@ -231,9 +240,14 @@ export const Header = () => {
                             key={item.name}
                             type="single"
                             collapsible
-                            defaultValue={isOriginActive ? "origins" : undefined}
+                            defaultValue={
+                              isOriginActive ? "origins" : undefined
+                            }
                           >
-                            <AccordionItem value="origins" className="border-none">
+                            <AccordionItem
+                              value="origins"
+                              className="border-none"
+                            >
                               <div className="flex items-center">
                                 <Link
                                   to={item.href}
@@ -248,7 +262,9 @@ export const Header = () => {
                                   {item.name}
                                 </Link>
                                 <AccordionTrigger className="px-3 py-3 hover:no-underline [&[data-state=open]>svg]:rotate-180">
-                                  <span className="sr-only">Toggle {item.name} submenu</span>
+                                  <span className="sr-only">
+                                    Toggle {item.name} submenu
+                                  </span>
                                 </AccordionTrigger>
                               </div>
                               <AccordionContent className="pb-0 pt-1">
@@ -259,7 +275,8 @@ export const Header = () => {
                                       to={`/origins/${origin.slug}`}
                                       onClick={() => setMobileMenuOpen(false)}
                                       className={`block px-4 py-2.5 rounded-lg text-sm font-medium transition-all ${
-                                        location.pathname === `/origins/${origin.slug}`
+                                        location.pathname ===
+                                        `/origins/${origin.slug}`
                                           ? "bg-accent/10 text-accent"
                                           : "text-muted-foreground hover:text-foreground hover:bg-muted"
                                       }`}
