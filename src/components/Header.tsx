@@ -21,6 +21,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { trackNavClick, trackCTASourcing } from "@/lib/umami";
 
 const navigation = [
   { name: "About", href: "/about" },
@@ -135,6 +136,7 @@ export const Header = () => {
                   >
                     <Link
                       to={item.href}
+                      onClick={() => trackNavClick.origins()}
                       className={`inline-flex items-center gap-1 text-sm font-medium transition-colors relative ${
                         isOriginActive
                           ? "text-accent after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-accent"
@@ -152,11 +154,15 @@ export const Header = () => {
                     {/* Dropdown - Elevated Slate surface */}
                     {originsDropdownOpen && (
                       <div className="absolute top-full left-0 mt-2 w-48 bg-card border border-border shadow-lg rounded-sm overflow-hidden animate-fade-in">
-                        <div className="py-1">
+                      <div className="py-1">
                           {origins.map((origin, index) => (
                             <Link
                               key={origin.slug}
                               to={`/origins/${origin.slug}`}
+                              onClick={() => {
+                                const trackFn = trackNavClick[`origin${origin.slug.charAt(0).toUpperCase() + origin.slug.slice(1)}` as keyof typeof trackNavClick];
+                                if (typeof trackFn === 'function') trackFn();
+                              }}
                               className={`block px-4 py-3 text-sm transition-all ${
                                 location.pathname === `/origins/${origin.slug}`
                                   ? "bg-accent/10 text-accent border-l-2 border-accent"
@@ -173,8 +179,12 @@ export const Header = () => {
                 ) : (
                   <Link
                     key={item.name}
-                      to={item.href}
-                      
+                    to={item.href}
+                    onClick={() => {
+                      const navKey = item.name.toLowerCase().replace(/\s+&\s+/g, '') as keyof typeof trackNavClick;
+                      const trackFn = trackNavClick[navKey];
+                      if (typeof trackFn === 'function') trackFn();
+                    }}
                     className={`text-sm font-medium transition-colors relative ${
                       location.pathname === item.href ||
                       location.pathname.startsWith(item.href + "/")
@@ -193,7 +203,10 @@ export const Header = () => {
               <ThemeToggle />
 
               <button
-                onClick={() => setEnquiryModalOpen(true)}
+                onClick={() => {
+                  trackCTASourcing.fromNav();
+                  setEnquiryModalOpen(true);
+                }}
                 className="text-sm font-medium px-5 py-2 bg-accent text-accent-foreground hover:bg-[hsl(42,50%,63%)] hover:shadow-md transition-all"
               >
                 Sourcing Enquiry
@@ -311,6 +324,7 @@ export const Header = () => {
                   <div className="mt-auto border-t border-border p-6 space-y-4 bg-muted/30">
                     <button
                       onClick={() => {
+                        trackCTASourcing.fromNav();
                         setMobileMenuOpen(false);
                         setEnquiryModalOpen(true);
                       }}

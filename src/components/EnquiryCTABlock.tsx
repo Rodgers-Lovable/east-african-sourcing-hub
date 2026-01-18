@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { ArrowRight } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { SourcingEnquiryModal } from "./SourcingEnquiryModal";
+import { trackCTASourcing } from "@/lib/umami";
 
 interface EnquiryCTABlockProps {
   title: string;
@@ -19,7 +20,20 @@ export const EnquiryCTABlock = ({
   secondaryLabel,
 }: EnquiryCTABlockProps) => {
   const [modalOpen, setModalOpen] = useState(false);
+  const location = useLocation();
 
+  const handleOpenModal = () => {
+    // Track CTA source based on current page
+    if (location.pathname === '/') {
+      trackCTASourcing.fromHome();
+    } else if (location.pathname === '/brokerage-sourcing') {
+      trackCTASourcing.fromBrokerage();
+    } else if (location.pathname.startsWith('/origins/')) {
+      const origin = location.pathname.replace('/origins/', '');
+      trackCTASourcing.fromOrigin(origin);
+    }
+    setModalOpen(true);
+  };
   return (
     <>
       <section className="section bg-card border-t border-border">
@@ -30,7 +44,7 @@ export const EnquiryCTABlock = ({
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
             <button
-              onClick={() => setModalOpen(true)}
+              onClick={handleOpenModal}
               className="inline-flex items-center justify-center gap-2 px-6 py-3 font-medium bg-accent text-accent-foreground focus:outline-none hover:bg-[hsl(42,50%,63%)] hover:shadow-md transition-all"
             >
               {primaryLabel}

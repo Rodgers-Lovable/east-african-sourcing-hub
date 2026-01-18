@@ -14,8 +14,12 @@ import coffeeSorting from "@/assets/coffee-sorting.jpg";
 import coffeeCupping from "@/assets/coffee-cupping.jpg";
 import dryingBeds from "@/assets/drying-beds.jpg";
 import coffeeBagsWarehouse from "@/assets/coffee-bags-warehouse.jpg";
+import { useScrollTracking } from "@/hooks/useScrollTracking";
 
 const BrokerageSourcingPage = () => {
+  // Track scroll depth on this page
+  useScrollTracking({ type: 'brokerage' });
+
   const process = [
     {
       step: "01",

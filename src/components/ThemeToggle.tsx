@@ -1,12 +1,20 @@
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "./ThemeProvider";
 import { motion, AnimatePresence } from "framer-motion";
+import { trackTheme } from "@/lib/umami";
 
 export const ThemeToggle = () => {
   const { resolvedTheme, setTheme } = useTheme();
 
   const toggleTheme = () => {
-    setTheme(resolvedTheme === "dark" ? "light" : "dark");
+    const newTheme = resolvedTheme === "dark" ? "light" : "dark";
+    // Track theme toggle
+    if (newTheme === "dark") {
+      trackTheme.toggleDark();
+    } else {
+      trackTheme.toggleLight();
+    }
+    setTheme(newTheme);
   };
 
   return (
