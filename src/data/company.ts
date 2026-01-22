@@ -3,7 +3,7 @@
 
 export const company = {
   name: "Imwera Coffee",
-  tagline: "Green Coffee Brokerage & Sourcing in East Africa",
+  tagline: "Every sip is a journey to East Africa",
   description:
     "An independent green coffee brokerage and sourcing company connecting international buyers with high-quality coffees from trusted partners across Kenya, Ethiopia, and Uganda.",
 
