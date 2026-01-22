@@ -13,11 +13,56 @@ export interface Origin {
   profileRange: string[];
   sourcingApproach: string;
   buyerNotes: string[];
+  /**
+   * Optional structured portfolio/spec data for origins that have multiple
+   * product families (e.g. Uganda Arabica + Fine Robusta).
+   *
+   * Kept optional to preserve existing site structure and allow incremental UI reuse.
+   */
+  portfolio?: {
+    arabica?: {
+      generalProfile: {
+        coffeeType: string;
+        altitude: string;
+        varieties: string[];
+        style: string;
+        scoringRange: string;
+      };
+      products: OriginProduct[];
+    };
+    robusta?: {
+      originContext: {
+        origin: string;
+        regions: string[];
+        altitudeRange: string;
+        farmingSystem: string;
+        intercropping: string[];
+        shadeSpecies: string[];
+        positioning: string;
+      };
+      processingProfiles: OriginProduct[];
+      supplyChainSteps?: string[];
+      sustainabilityHighlights?: string[];
+    };
+  };
   seo: {
     title: string;
     description: string;
   };
 }
+
+export interface OriginProduct {
+  name: string;
+  /** A short label for listings/cards (e.g. “Natural Arabica”) */
+  type?: string;
+  /** Optional sub-origin/locality (e.g. “Bulambuli”, “Masaka & Kalungu”) */
+  location?: string;
+  process: string;
+  altitude: string;
+  varieties: string[];
+  flavorNotes: string[];
+  score: string;
+ }
 
 export const origins: Origin[] = [
   {
@@ -107,35 +152,177 @@ export const origins: Origin[] = [
     name: "Uganda",
     slug: "uganda",
     tagline: "Emerging specialty origin with exceptional value",
-    overview: "Uganda represents one of East Africa's most compelling emerging specialty origins. While historically known for Robusta production, the country's Arabica offerings—particularly from Mount Elgon, Rwenzori, and the southwestern highlands—are gaining recognition for their quality and value proposition. Progressive producers and exporters are investing in quality infrastructure, creating opportunities for buyers seeking distinctive coffees with strong value-to-quality ratios.",
+    overview:
+      "Uganda is a compelling specialty origin with two distinct value propositions: high-altitude specialty Arabica from Mount Elgon (1900+ masl) and micro-lot Fine Robustas from Central Uganda. Buyers can access expressive, fermentation-driven Arabica profiles (82+–86+) alongside rare-cup Robusta lots (83+–85+) built for modern espresso and blend programs.",
     regions: [
-      "Mount Elgon (Bugisu) — The traditional Arabica heartland with bright, fruity profiles",
-      "Rwenzori Mountains — High-altitude production with complex, wine-like acidity",
-      "West Nile — Emerging area with distinctive local varieties",
-      "Southwestern Uganda — Kigezi and surrounding areas with quality potential",
+      "Mount Elgon (Bulambuli, Namisindwa, Manafwa) — High-altitude Arabica (1900+ masl) with expressive profiles",
+      "Central Uganda (Masaka & Kalungu) — Fine Robusta micro-lots (1100–1300 masl) with rare cup potential",
+      "Rwenzori Mountains — High-altitude Arabica with complex acidity and structure",
+      "Southwestern Uganda — Quality-driven Arabica potential from cooler highland zones",
     ],
     processingMethods: [
-      "Fully Washed — The standard for specialty Ugandan Arabica",
-      "Natural — Growing in adoption, particularly in progressive operations",
-      "Honey — Experimental lots from quality-focused partners",
+      "Specialty Arabica (Mount Elgon) — Natural, natural anaerobic, and controlled anaerobic fermentations (drums/sacs), plus select co-fermentations",
+      "Fine Robusta (Central Uganda) — Sun-dried lots with targeted fermentations including anaerobic yeast and anaerobic natural, plus pineapple co-fermentation",
     ],
     harvestPeriod: "Main crop: September – December | Fly crop: April – June",
-    availabilityWindow: "Fresh crop typically available December through July. Availability depends on partner stock and processing capacity. Early engagement recommended for specific lots.",
+    availabilityWindow:
+      "Fresh crop typically available December through July (timing varies by process and partner prep). Early engagement is recommended for specific micro-lots and fermentation styles.",
     profileRange: [
-      "Bright acidity with citrus notes",
-      "Stone fruit and berry characteristics",
-      "Chocolate and nutty undertones",
-      "Clean, balanced cups",
-      "Excellent value-to-quality ratio",
+      "Specialty Arabica (82+–86+): strawberry, ripe plum, brown sugar, chocolate, tropical fruit",
+      "Fine Robusta (83+–85+): cocoa, molasses, caramel, vanilla, citrus, nutty cream",
+      "Fermentation-driven lots with clean structure and defined sweetness",
+      "Commercially strong value-to-quality across both Arabica and Fine Robusta programs",
     ],
-    sourcingApproach: "We partner with Ugandan exporters, cooperatives, and quality-focused processors who are actively investing in specialty coffee development. Our sourcing prioritizes partners with transparent practices, fair farmer payments, and consistent quality standards. We're particularly focused on relationships that support the continued growth of Uganda's specialty segment.",
+    sourcingApproach:
+      "We source Uganda coffees through partners operating two complementary supply chains: (1) high-altitude Arabica from Mount Elgon with both traditional and experimental fermentation options, and (2) Fine Robusta micro-lots from Central Uganda designed for differentiated cup profiles. For Robusta, coffee is collected from surrounding villages, primary processing takes place in Kalungu, and lots are managed through meticulous sorting, pulping, controlled fermentation, and sun-drying. Final hulling, grading, and export preparation are completed under strict supervision.",
     buyerNotes: [
       "Lead times: 4-8 weeks typical from confirmed order",
       "Sampling: Pre-shipment samples available through our partner network",
       "Lot sizes: From micro-lots to container quantities depending on partner",
       "Value proposition: Excellent quality-to-price ratio compared to other East African origins",
-      "Development: Quality continues to improve as infrastructure and processing develops",
+      "Portfolio: Specialty Arabica (1900+ masl, SL14/SL28/Bugisu Local) and Fine Robusta (1100–1300 masl, Nganda/Elite/KR selections)",
     ],
+    portfolio: {
+      arabica: {
+        generalProfile: {
+          coffeeType: "Specialty Arabica",
+          altitude: "1900+ masl",
+          varieties: ["SL14", "SL28", "Bugisu Local"],
+          style:
+            "High-altitude, expressive profiles with experimental and traditional fermentations",
+          scoringRange: "82+ to 86+",
+        },
+        products: [
+          {
+            name: "Moonrise",
+            type: "Natural Arabica",
+            location: "Bulambuli",
+            process: "Natural",
+            altitude: "1900+ masl",
+            varieties: ["SL14", "SL28", "Bugisu Local"],
+            flavorNotes: [
+              "Strawberry",
+              "Chocolate",
+              "Ripe Plum",
+              "Brown Sugar",
+            ],
+            score: "85+",
+          },
+          {
+            name: "Sunshine",
+            type: "Natural Anaerobic",
+            location: "Namisindwa & Manafwa",
+            process: "Between Natural & Anaerobic",
+            altitude: "1900+ masl",
+            varieties: ["SL14", "SL28", "Bugisu Local"],
+            flavorNotes: ["Pineapple", "Lemon", "Fresh Almond", "Cocoa"],
+            score: "85+",
+          },
+          {
+            name: "Elgon Boozy",
+            type: "Anaerobic Natural Fermentation",
+            process: "5-day anaerobic fermentation in drums",
+            altitude: "1900+ masl",
+            varieties: ["SL14", "SL28", "Bugisu Local"],
+            flavorNotes: [
+              "Marmalade",
+              "Exotic Fruit",
+              "Mango",
+              "Pineapple",
+              "Tamarind",
+            ],
+            score: "86+",
+          },
+          {
+            name: "Bloom",
+            type: "Anaerobic Natural Fermentation",
+            process: "5-day anaerobic fermentation in sacs",
+            altitude: "1900+ masl",
+            varieties: ["SL14", "SL28", "Bugisu Local"],
+            flavorNotes: [
+              "Chocolate",
+              "Woody Notes",
+              "Dried Fruit",
+              "Spice",
+            ],
+            score: "82+",
+          },
+          {
+            name: "Ananas",
+            type: "Pineapple Co-Fermentation",
+            process: "Pineapple Co-Fermentation",
+            altitude: "1900+ masl",
+            varieties: ["SL14", "SL28", "Bugisu Local"],
+            flavorNotes: ["Pomegranate", "Banana", "Jackfruit", "Apricot"],
+            score: "86+",
+          },
+        ],
+      },
+      robusta: {
+        originContext: {
+          origin: "Central Uganda",
+          regions: ["Masaka", "Kalungu"],
+          altitudeRange: "1100–1300 masl",
+          farmingSystem: "Smallholder farms (1–3 acres) + select larger estates",
+          intercropping: ["Bananas", "cassava", "beans"],
+          shadeSpecies: ["Albizia", "Ficus"],
+          positioning: "Micro-lot Fine Robustas with rare cup profiles",
+        },
+        processingProfiles: [
+          {
+            name: "Yeast Fermentation Robusta",
+            altitude: "1100–1300 masl",
+            varieties: ["Nganda", "Elite", "KR1", "KR2", "KR3", "KR4", "KR5", "KR6", "KR7", "KR8", "KR9", "KR10"],
+            process: "4-day anaerobic yeast fermentation; sun-dried",
+            flavorNotes: [
+              "Cocoa",
+              "Molasses",
+              "Caramel",
+              "Tropical Fruit",
+              "Nutty Cream",
+            ],
+            score: "85+",
+          },
+          {
+            name: "Anaerobic Fermentation Robusta",
+            altitude: "1100–1300 masl",
+            varieties: ["Nganda", "Elite", "KR1", "KR2", "KR3", "KR4", "KR5", "KR6", "KR7", "KR8", "KR9", "KR10"],
+            process: "6-day anaerobic natural fermentation; sun-dried",
+            flavorNotes: ["Molasses", "Vanilla", "Citrus", "Tropical Fruit", "Nutty"],
+            score: "84+",
+          },
+          {
+            name: "Pineapple Co-Fermentation Robusta",
+            altitude: "1100–1300 masl",
+            varieties: ["Nganda", "Elite", "KR1", "KR2", "KR3", "KR4", "KR5", "KR6", "KR7", "KR8", "KR9", "KR10"],
+            process: "6-day anaerobic natural fermentation; pineapple co-fermentation; sun-dried",
+            flavorNotes: ["Ripe Banana", "Orange Juice", "Nutty"],
+            score: "84+",
+          },
+          {
+            name: "Natural Robusta",
+            altitude: "1100–1300 masl",
+            varieties: ["Nganda", "Elite", "KR1", "KR2", "KR3", "KR4", "KR5", "KR6", "KR7", "KR8", "KR9", "KR10"],
+            process: "Sun-dried",
+            flavorNotes: ["Roasted Cereal", "Nuts", "Spicy", "Chocolate", "Orange"],
+            score: "83+",
+          },
+        ],
+        supplyChainSteps: [
+          "Coffee collected from surrounding villages",
+          "Primary processing in Kalungu",
+          "Meticulous sorting → pulping → controlled fermentation → sun-drying",
+          "Final hulling, grading, and export preparation under strict supervision",
+        ],
+        sustainabilityHighlights: [
+          "Good Agricultural Practices (GAPs): mulching, pruning, pest control, soil conservation",
+          "Organic compost use to reduce chemical dependency",
+          "Contour planting and mulching to prevent erosion",
+          "Water filtered through lime and stone soak pits",
+          "Sun drying to reduce energy use",
+        ],
+      },
+    },
     seo: {
       title: "Uganda Coffee Sourcing | Imwera Coffee",
       description: "Source quality Ugandan specialty coffee through Imwera Coffee. Mount Elgon, Rwenzori origins. Washed processing, bright profiles, excellent value.",
