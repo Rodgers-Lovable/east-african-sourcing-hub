@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useParams, Navigate, Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { Layout } from "@/components/Layout";
@@ -7,6 +8,8 @@ import { EnquiryCTABlock } from "@/components/EnquiryCTABlock";
 import { AnimatedSection } from "@/components/AnimatedSection";
 import { PageHero } from "@/components/PageHero";
 import { ParallaxQuote } from "@/components/ParallaxQuote";
+import { UgandaPortfolioSection } from "@/components/UgandaPortfolioSection";
+import { SourcingEnquiryModal, type SourcingEnquiryPrefill } from "@/components/SourcingEnquiryModal";
 import { getOriginBySlug, origins } from "@/data/origins";
 import originKenya from "@/assets/origin-kenya.jpg";
 import originEthiopia from "@/assets/origin-ethiopia.jpg";
@@ -39,6 +42,9 @@ const originQuotes: Record<string, { quote: string; attribution: string }> = {
 const OriginDetailPage = () => {
   const { slug } = useParams<{ slug: string }>();
   const origin = slug ? getOriginBySlug(slug) : undefined;
+
+  const [enquiryModalOpen, setEnquiryModalOpen] = useState(false);
+  const [enquiryPrefill, setEnquiryPrefill] = useState<SourcingEnquiryPrefill | undefined>(undefined);
 
   // Track scroll depth on origin pages
   useScrollTracking({ type: 'origin', origin: slug });
@@ -130,6 +136,19 @@ const OriginDetailPage = () => {
           </div>
         </div>
       </section>
+
+      {/* Uganda Portfolio (structured spec sheets) */}
+      <UgandaPortfolioSection
+        origin={origin}
+        onEnquireProduct={(product) => {
+          setEnquiryPrefill({
+            origins: ["Uganda"],
+            processingPreference: product.type || "",
+            notes: `Uganda product of interest: ${product.name}${product.type ? ` (${product.type})` : ""}.\n\nTarget profile: ${product.flavorNotes.join(", ")}.\nAltitude: ${product.altitude}.\nProcess: ${product.process}.\n\nAdditional requirements:`,
+          });
+          setEnquiryModalOpen(true);
+        }}
+      />
 
       {/* Harvest & Availability */}
       <section className="section-lg bg-card">
@@ -253,6 +272,12 @@ const OriginDetailPage = () => {
         primaryLabel="Submit Sourcing Enquiry"
         secondaryLink="/brokerage-sourcing"
         secondaryLabel="How We Work"
+      />
+
+      <SourcingEnquiryModal
+        isOpen={enquiryModalOpen}
+        onClose={() => setEnquiryModalOpen(false)}
+        prefill={enquiryPrefill}
       />
     </Layout>
   );

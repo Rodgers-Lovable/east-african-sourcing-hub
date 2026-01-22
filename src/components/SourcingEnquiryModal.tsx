@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import { X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Input } from "@/components/ui/input";
@@ -12,6 +12,8 @@ import { trackSourcingModal } from "@/lib/umami";
 interface SourcingEnquiryModalProps {
   isOpen: boolean;
   onClose: () => void;
+  /** Optional one-shot defaults applied when the modal opens. */
+  prefill?: SourcingEnquiryPrefill;
 }
 
 interface FormData {
@@ -27,6 +29,10 @@ interface FormData {
   notes: string;
 }
 
+export type SourcingEnquiryPrefill = Partial<
+  Pick<FormData, "origins" | "volume" | "shippingWindow" | "processingPreference" | "notes">
+>;
+
 const initialFormData: FormData = {
   name: "",
   company: "",
@@ -40,11 +46,13 @@ const initialFormData: FormData = {
   notes: "",
 };
 
-export const SourcingEnquiryModal = ({ isOpen, onClose }: SourcingEnquiryModalProps) => {
+export const SourcingEnquiryModal = ({ isOpen, onClose, prefill }: SourcingEnquiryModalProps) => {
   const [formData, setFormData] = useState<FormData>(initialFormData);
   const [hasStartedForm, setHasStartedForm] = useState(false);
   const { status, submitSourcingEnquiry, resetStatus } = useEmailJS();
   const formRef = useRef<HTMLFormElement>(null);
+
+  const prefillKey = useMemo(() => JSON.stringify(prefill ?? {}), [prefill]);
 
   // Track modal open
   useEffect(() => {
@@ -52,6 +60,20 @@ export const SourcingEnquiryModal = ({ isOpen, onClose }: SourcingEnquiryModalPr
       trackSourcingModal.open();
     }
   }, [isOpen]);
+
+  // Apply prefill defaults whenever the modal opens.
+  useEffect(() => {
+    if (!isOpen) return;
+    if (!prefill) return;
+
+    setFormData((prev) => ({
+      ...prev,
+      ...prefill,
+      // Ensure origins is always an array when provided
+      origins: prefill.origins ?? prev.origins,
+    }));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpen, prefillKey]);
 
   // Lock body scroll when modal is open
   useEffect(() => {
