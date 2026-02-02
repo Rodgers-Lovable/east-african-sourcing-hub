@@ -120,6 +120,7 @@ export const trackPartnerForm = {
 export const trackContact = {
   formSubmitSuccess: () => trackEvent('contact_form_submit_success'),
   whatsappClick: () => trackEvent('contact_whatsapp_click'),
+  telClick: () => trackEvent('contact_tel_click'),
   emailClick: () => trackEvent('contact_email_click'),
   linkedinClick: () => trackEvent('contact_linkedin_click'),
 };

@@ -22,14 +22,15 @@ export const company = {
   // Contact information
   contact: {
     email: "trade@imweracoffee.com",
-    whatsapp: "+254700000000",
+    tel: "+254119858100",
     location: "Nairobi, Kenya",
-    linkedin: "https://linkedin.com/company/imwera-coffee",
   },
 
   // Social links
   social: {
-    linkedin: "https://linkedin.com/in/imwera-coffee",
+    linkedin: "https://www.linkedin.com/company/111128533",
+    facebook: "https://facebook.com//people/Imwera-Coffee",
+    whatsapp: "+25776229000",
   },
   dev: {
     fname: "Brian",

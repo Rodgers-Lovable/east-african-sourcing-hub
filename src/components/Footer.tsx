@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Linkedin, Mail, MessageCircle } from "lucide-react";
+import { Linkedin, Mail, MessageCircle, Facebook } from "lucide-react";
 import { company } from "@/data/company";
 import { useTheme } from "./ThemeProvider";
 import ImweraLogoDark from "@/assets/logo-dark.png";
@@ -58,7 +58,7 @@ export const Footer = () => {
                 <Mail className="w-5 h-5" />
               </a>
               <a
-                href={`https://wa.me/${company.contact.whatsapp.replace(/[^0-9]/g, "")}`}
+                href={`https://wa.me/${company.social.whatsapp.replace(/[^0-9]/g, "")}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-muted-foreground hover:text-accent transition-colors"
@@ -74,6 +74,15 @@ export const Footer = () => {
                 aria-label="LinkedIn"
               >
                 <Linkedin className="w-5 h-5" />
+              </a>
+              <a
+                href={company.social.facebook}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-muted-foreground hover:text-accent transition-colors"
+                aria-label="Facebook"
+              >
+                <Facebook className="w-5 h-5" />
               </a>
             </div>
           </div>
@@ -138,7 +147,10 @@ export const Footer = () => {
             </p>
             <p className="text-xs text-muted-foreground">
               Developed & Maintained by{" "}
-              <a href={`mailto:${company.dev.email}`} className="underline text-primary">
+              <a
+                href={`mailto:${company.dev.email}`}
+                className="underline text-primary"
+              >
                 {company.dev.lname}
               </a>
             </p>
