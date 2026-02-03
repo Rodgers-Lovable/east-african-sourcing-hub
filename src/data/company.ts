@@ -28,7 +28,7 @@ export const company = {
 
   // Social links
   social: {
-    linkedin: "https://www.linkedin.com/company/111128533",
+    linkedin: "https://www.linkedin.com/company/imweracoffee/",
     facebook: "https://facebook.com//people/Imwera-Coffee",
     whatsapp: "+254119858100",
   },
