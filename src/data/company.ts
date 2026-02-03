@@ -30,7 +30,7 @@ export const company = {
   social: {
     linkedin: "https://www.linkedin.com/company/111128533",
     facebook: "https://facebook.com//people/Imwera-Coffee",
-    whatsapp: "+25776229000",
+    whatsapp: "+254119858100",
   },
   dev: {
     fname: "Brian",
