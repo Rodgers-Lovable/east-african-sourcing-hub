@@ -21,7 +21,7 @@ export const company = {
 
   // Contact information
   contact: {
-    email: "trade@imweracoffee.com",
+    email: "trading@imweracoffee.com",
     tel: "+254119858100",
     location: "Nairobi, Kenya",
   },
