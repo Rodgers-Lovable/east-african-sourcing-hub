@@ -1,73 +1,89 @@
 # Imwera Coffee
 
-## Project info
+Website for [Imwera Coffee](https://imweracoffee.com) — an independent green coffee brokerage connecting international buyers with high-quality coffees sourced through trusted partners across Kenya, Ethiopia, and Uganda.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+## Tech Stack
 
-## How can I edit this code?
+- **React 18** with TypeScript
+- **Vite** — build tooling and dev server
+- **React Router** — client-side routing
+- **Tailwind CSS** — styling
+- **shadcn/ui** — UI component library
+- **Framer Motion** — animations
+- **React Helmet Async** — SEO head management
+- **EmailJS** — contact form delivery
+- **Vitest** — unit testing
 
-There are several ways of editing your application.
+## Getting Started
 
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
+Requires Node.js 18+ and npm (or bun).
 
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+# Install dependencies
+npm install
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Start the development server
 npm run dev
+
+# Build for production
+npm run build
+
+# Preview the production build
+npm run preview
 ```
 
-**Edit a file directly in GitHub**
+## Available Scripts
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+| Script | Description |
+|---|---|
+| `npm run dev` | Start dev server at `localhost:5173` |
+| `npm run build` | Build for production to `dist/` |
+| `npm run preview` | Preview the production build locally |
+| `npm run lint` | Run ESLint |
+| `npm run test` | Run unit tests with Vitest |
+| `npm run generate:sitemap` | Regenerate `public/sitemap.xml` |
 
-**Use GitHub Codespaces**
+## Project Structure
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+```
+src/
+├── components/       # Reusable UI components
+│   └── ui/           # shadcn/ui base components
+├── data/             # Static data: company, origins, insights, services
+├── hooks/            # Custom React hooks
+├── lib/              # Utilities and analytics helpers
+├── pages/            # Page components (one per route)
+└── generate-sitemap.ts  # Sitemap generation script
+public/
+├── robots.txt
+└── sitemap.xml       # Generated — do not edit manually
+```
 
-## What technologies are used for this project?
+## Routes
 
-This project is built with:
+| Path | Page |
+|---|---|
+| `/` | Home |
+| `/about` | About |
+| `/brokerage-sourcing` | Brokerage & Sourcing |
+| `/origins` | Origins overview |
+| `/origins/:slug` | Origin detail (kenya, ethiopia, uganda) |
+| `/insights` | Market Insights listing |
+| `/insights/:slug` | Insight article |
+| `/contact` | Contact |
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## Sitemap
 
-## How can I deploy this project?
+The sitemap is generated from the data files in `src/data/`. Run the following command after adding new origins or insight posts:
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+```sh
+npm run generate:sitemap
+```
 
-## Can I connect a custom domain to my Lovable project?
+This outputs `public/sitemap.xml`, which is referenced in `public/robots.txt`.
 
-Yes, you can!
+## Contact
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+**Imwera Coffee**
+Nairobi, Kenya
+trading@imweracoffee.com
